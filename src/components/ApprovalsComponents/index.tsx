@@ -23,10 +23,12 @@ export function ApprovalsComponents({ className }: { className?: string }) {
     >
       <CareBlock className="flex mt-9 mr-[22px] sm:hidden" />
       <div className="w-full overflow-x-scroll sm:overflow-x-hidden">
-        <Table
-          currentTokens={items}
-          className="w-auto min-w-max mt-5 sm:mt-0"
-        />
+        {items &&  
+          <Table
+            currentTokens={items}
+            className="w-auto min-w-max mt-5 sm:mt-0"
+          />
+        }
       </div>
       <div
         className={cn(

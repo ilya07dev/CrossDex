@@ -9,7 +9,6 @@ export const getEnvVar = (key: string) => {
     return env || "";
 };
 
-export const MOCK_CHAIN_ID = 1;
 export const RPC_ETHER = getEnvVar("VITE_RPC_ETHER");
 export const RPC_BNB = getEnvVar("VITE_RPC_BNB");
 export const RPC_POLYGON = getEnvVar("VITE_RPC_POLYGON");

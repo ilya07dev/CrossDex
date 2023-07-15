@@ -1,20 +1,22 @@
-import { useState } from "react";
+
 
 import { useDropdown, useMediaQuery } from "hooks";
 
 import { ArrModalIcon } from "components/Icons/ArrModalIcon";
 
 import cn from "classnames";
+import { useSwitchNetwork, useNetwork } from "wagmi";
 
 interface IProps {
   className?: string;
 }
 
-const data: string[] = ["BSC", "BSC", "BSC", "BSC"];
-export function BscModal({ className }: IProps) {
+export function SelectChainModal({ className }: IProps) {
+  const {chain, chains} = useNetwork();
+  const {switchNetworkAsync} = useSwitchNetwork()
   const isMobile = useMediaQuery("(max-width: 640px)");
   const { isOpen, toggle, dropdownRef, close } = useDropdown();
-  const [time, setTime] = useState(data[0]);
+  
   return (
     <div
       ref={dropdownRef}
@@ -33,7 +35,7 @@ export function BscModal({ className }: IProps) {
           !isOpen ? "border-[#45464A] bg-c-secondary" : "border-transparent"
         )}
       >
-        <span className="cursor-pointer">{time}</span>
+        <span className="cursor-pointer">{chain?.nativeCurrency.symbol}</span>
         <ArrModalIcon
           width={isMobile ? 10.7 : 15.7}
           height={isMobile ? 10.7 : 15.7}
@@ -50,19 +52,20 @@ export function BscModal({ className }: IProps) {
             : "scale-y-0 top-[-50px] sm:top-[-73px] opacity-0"
         )}
       >
-        {data.map((el: string, i) => (
+        {chains.map((el, i) => (
           <span
             className={cn(
               "w-full flex justify-start cursor-pointer leading-[120%]",
               "py-1 pl-[15px] sm:pl-[22px]"
             )}
-            onClick={() => {
-              setTime(el);
+            onClick={async () => {
+              // @ts-ignore
+              await switchNetworkAsync(el.id)
               close();
             }}
-            key={el + i}
+            key={el.nativeCurrency.symbol}
           >
-            {el}
+            {el.nativeCurrency.symbol}
           </span>
         ))}
       </aside>

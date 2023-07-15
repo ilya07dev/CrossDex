@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { MOCK_CHAIN_ID } from "config";
+import { useNetwork } from 'wagmi'
 import { mockTokenImage } from "mook/linkImg";
 import { allTokensUrl, txUserUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
@@ -39,15 +39,16 @@ const inter = new ethers.utils.Interface(abiApprove);
 
 export const useGetApprovals = ():ApprovalsTx[] => {
     const {address} = useAccount();
+    const {chain} = useNetwork()
     const {data } = useQuery(
         'marketTokens',
-        () => axios.get(txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 56)), {
+        () => axios.get(txUserUrl(address ?? "", chain?.id ?? 1)), {
             refetchOnWindowFocus: false,
         }
     );
     const {data:allTokens } = useQuery(
         'allTokens',
-        () => axios.get(allTokensUrl(56)),{
+        () => axios.get(allTokensUrl(chain?.id ?? 1)),{
             refetchOnWindowFocus: false,
         }
     );
@@ -78,7 +79,7 @@ export const useGetApprovals = ():ApprovalsTx[] => {
         return approveTx;
     })
     
-    return Approvals;
+    return Approvals ?? [];
 }
 
 export type {ApprovalsTx}

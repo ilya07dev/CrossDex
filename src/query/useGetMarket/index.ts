@@ -1,21 +1,26 @@
 import axios from "axios";
-import { MOCK_CHAIN_ID } from "config";
+import { useNetwork } from 'wagmi';
 import { marketListUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
 import { tokenMarket, tokenResultMarket, graphic } from "./type";
 import { convertNumbers } from "utils";
+import { shortName } from "utils/shortName";
 
 export const useGetMarket = ():tokenResultMarket[] => {
+    const {chain} = useNetwork();
     const {data } = useQuery(
         'marketTokens',
-        () => axios.get(marketListUrl(MOCK_CHAIN_ID))
+        () => axios.get(marketListUrl(chain?.id ?? 1)),
+        {
+            refetchOnWindowFocus: false,
+        }
     );
     
     if(!data?.data?.pools?.data) return [];
 
     const tokens = data.data.pools.data.map((pool:tokenMarket, index:number) => {
         return {
-            name:pool.token.name,
+            name:shortName(pool.token.name),
             symbol:pool.token.symbol,
             logo:`https://www.dextools.io/resources/tokens/logos/${pool.token.logo}`,
             price:convertNumbers(pool.price),

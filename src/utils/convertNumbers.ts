@@ -18,9 +18,13 @@ export const convertNumbers = (
       z = sign + '0.';
       while (mag++) z += '0';
 
-      value = z + str.replace(/^\-/, ''); 
+
+      value = z + str.replace(/^\-/, '');
       const degree = +value[value.length-1];
       value = value.slice(0, degree+4);
+      if(value.length > 9) {
+        value = `${value.slice(0, 3)}...${value.slice(-4)}`
+      }
 
       return value
     }

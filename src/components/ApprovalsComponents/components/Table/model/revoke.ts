@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import { useContract, useSigner } from "wagmi"
+import {useSigner } from "wagmi"
 
 export const revokeAbi = [
     {
