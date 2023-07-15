@@ -1,0 +1,2 @@
+
+export {useGetInfoToken} from './getInfoToken'
