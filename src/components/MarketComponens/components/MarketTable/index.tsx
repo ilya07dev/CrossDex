@@ -112,7 +112,7 @@ export function MarketTable({ className, currentTokens }: IProps) {
             
             <MarketGraphic 
               index={index} 
-              graphic={token.graphic}
+              address={token.address}
             />
           </tr>
         ))}

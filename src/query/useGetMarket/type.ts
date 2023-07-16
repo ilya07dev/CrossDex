@@ -91,7 +91,7 @@ export interface tokenResultMarket {
     volume24h:number,
     swaps24h:number,
     volume24hBtc:string,
-    graphic:graphic[],
+    address:string,
 }
 
 export interface graphic {

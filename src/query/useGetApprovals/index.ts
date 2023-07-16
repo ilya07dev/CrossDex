@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useNetwork } from 'wagmi'
 import { mockTokenImage } from "mook/linkImg";
@@ -10,6 +9,7 @@ import { formatDate } from "./lib";
 import { tokens1Inch } from "query/apiUrl/tokens";
 import { extraShortenAddress } from "utils/extraShortenAddress";
 import { useAccount } from "wagmi";
+import { convertToCorrectChains } from "utils/convertCorrectChains";
 
 const abiApprove = [{
     "constant": false,
@@ -38,17 +38,31 @@ const abiApprove = [{
 const inter = new ethers.utils.Interface(abiApprove);
 
 export const useGetApprovals = ():ApprovalsTx[] => {
+    // const {data } = useQuery(
+    //     'marketTokens',
+    //     () => axios.get(txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 56)), {
+    //         refetchOnWindowFocus: false,
+    //     }
+    // );
+    // const {data:allTokens } = useQuery(
+    //     'allTokens',
+    //     () => axios.get(allTokensUrl(56)),{
+    //         refetchOnWindowFocus: false,
+    //     }
+    // );
+
     const {address} = useAccount();
     const {chain} = useNetwork()
+    const chainCurrent = convertToCorrectChains(chain?.id);
     const {data } = useQuery(
         'marketTokens',
-        () => axios.get(txUserUrl(address ?? "", chain?.id ?? 1)), {
+        () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
             refetchOnWindowFocus: false,
         }
     );
     const {data:allTokens } = useQuery(
         'allTokens',
-        () => axios.get(allTokensUrl(chain?.id ?? 1)),{
+        () => axios.get(allTokensUrl(chainCurrent)),{
             refetchOnWindowFocus: false,
         }
     );

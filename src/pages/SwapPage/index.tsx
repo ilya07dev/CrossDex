@@ -6,7 +6,7 @@ import cn from "classnames";
 import { useNavigateToken } from "./model";
 
 export function SwapPage() {
-  useNavigateToken()
+  useNavigateToken();
   return (
     <main
       className={cn(

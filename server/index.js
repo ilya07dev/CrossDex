@@ -137,6 +137,21 @@ const graphicUrl = (
     return `https://dex-api-production.up.railway.app/v1/dex/candles/history/${address}?from=${now-from}&to=${now}&interval=7.2&chainId=${chainId}`
 }
 
+app.get('/tradingTokens/:chainId/:address/D7', async ({params}, res) => {
+    try {
+        const d7 = 604_800_000;
+
+        const {chainId, address} = params;
+
+        let graphicD7 = await fetch(graphicUrl(address, d7,chainId));
+        graphicD7 = await graphicD7.json();
+      
+        res.json(graphicD7.history) 
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 app.get('/tradingTokens/:chainId/:address/H24', async ({params}, res) => {
     try {
         const h24 = 86400000;

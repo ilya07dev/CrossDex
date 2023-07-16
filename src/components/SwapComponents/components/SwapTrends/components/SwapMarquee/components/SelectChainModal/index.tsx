@@ -5,17 +5,32 @@ import { useDropdown, useMediaQuery } from "hooks";
 import { ArrModalIcon } from "components/Icons/ArrModalIcon";
 
 import cn from "classnames";
-import { useSwitchNetwork, useNetwork } from "wagmi";
+import { useAccount, useSwitchNetwork } from "wagmi";
+import { useState } from "react";
+import { polygon, bsc, mainnet } from "wagmi/chains";
+import { useSearchParams } from "react-router-dom";
 
 interface IProps {
   className?: string;
 }
 
+const chains = [mainnet, bsc, polygon];
+const chainQuery = {
+  [mainnet.id]:mainnet,
+  [bsc.id]:bsc,
+  [polygon.id]:polygon,
+};
+
 export function SelectChainModal({ className }: IProps) {
-  const {chain, chains} = useNetwork();
   const {switchNetworkAsync} = useSwitchNetwork()
   const isMobile = useMediaQuery("(max-width: 640px)");
   const { isOpen, toggle, dropdownRef, close } = useDropdown();
+
+  const [query, setQuery] = useSearchParams();
+
+  // @ts-ignore
+  const [offChain, setChain] = useState(chainQuery[query.get("network") ?? "ETH"]);
+  const {address} = useAccount();
   
   return (
     <div
@@ -35,7 +50,7 @@ export function SelectChainModal({ className }: IProps) {
           !isOpen ? "border-[#45464A] bg-c-secondary" : "border-transparent"
         )}
       >
-        <span className="cursor-pointer">{chain?.nativeCurrency.symbol}</span>
+        <span className="cursor-pointer">{offChain?.nativeCurrency.symbol }</span>
         <ArrModalIcon
           width={isMobile ? 10.7 : 15.7}
           height={isMobile ? 10.7 : 15.7}
@@ -60,7 +75,19 @@ export function SelectChainModal({ className }: IProps) {
             )}
             onClick={async () => {
               // @ts-ignore
-              await switchNetworkAsync(el.id)
+              if(address) await switchNetworkAsync(el.id);
+              setChain(el)
+              console.log({
+                network:el.id.toString(),
+                // tokenAddress:query.get("tokenAddress"),
+                pairAddress:query.get("pairAddress")
+              })
+              // @ts-ignore
+              setQuery({
+                network:el.id.toString(),
+                // tokenAddress:query.get("tokenAddress"),
+                pairAddress:query.get("pairAddress")
+              })
               close();
             }}
             key={el.nativeCurrency.symbol}

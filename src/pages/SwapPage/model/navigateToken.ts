@@ -26,6 +26,6 @@ export const useNavigateToken = () => {
                 break;
         }
 
-        return navigate(`/?tokenAddress=${tokenAddress}&pairAddress=${pairAddress}`);
+        return navigate(`/?tokenAddress=${tokenAddress}&pairAddress=${pairAddress}&network=${chain?.id ?? 1}`);
     }, [query,navigate,chain])
 }

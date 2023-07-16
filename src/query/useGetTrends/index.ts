@@ -3,14 +3,16 @@ import axios from 'axios';
 import { hotTokensUrl } from 'query/apiUrl';
 import {trendsTokens} from './type'
 import { useNetwork } from 'wagmi';
+import { convertToCorrectChains } from 'utils/convertCorrectChains';
 
 
 export const useGetTrends = (): trendsTokens[] => {
 
     const {chain} = useNetwork();
+    const chainCurrent = convertToCorrectChains(chain?.id);
     const {data } = useQuery(
         'trendsTorkens',
-        () => axios.get(hotTokensUrl(chain?.id ?? 1)),
+        () => axios.get(hotTokensUrl(chainCurrent)),
         {
             refetchOnWindowFocus: false,
         }

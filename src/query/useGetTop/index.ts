@@ -4,6 +4,7 @@ import { looserToken } from "./type";
 import { tokensType } from "components/MarketComponens/components/MarketTable/Components/Categories/config";
 import { convertNumbers } from "utils";
 import { useNetwork } from 'wagmi';
+import { convertToCorrectChains } from "utils/convertCorrectChains";
 
 
 export const useGetTops = (
@@ -11,9 +12,10 @@ export const useGetTops = (
     query:(chainId:number) => string
 ) => {
     const {chain} = useNetwork();
+    const chainCurrent = convertToCorrectChains(chain?.id);
     const {data } = useQuery(
         key,
-        () => axios.get(query(chain?.id ?? 1)),
+        () => axios.get(query(chainCurrent)),
         {
             refetchOnWindowFocus: false,
         }

@@ -7,7 +7,7 @@ import { polygon, bsc, mainnet } from "@wagmi/chains";
 
 import { RPC_NETWORK } from "./variables";
 
-const chainsActive = [polygon, bsc, mainnet];
+export const chainsActive = [polygon, bsc, mainnet];
 
 export const { chains, provider, webSocketProvider } = configureChains(
   [...chainsActive],

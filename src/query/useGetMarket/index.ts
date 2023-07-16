@@ -5,12 +5,14 @@ import { useQuery } from "react-query";
 import { tokenMarket, tokenResultMarket, graphic } from "./type";
 import { convertNumbers } from "utils";
 import { shortName } from "utils/shortName";
+import { convertToCorrectChains } from "utils/convertCorrectChains";
 
 export const useGetMarket = ():tokenResultMarket[] => {
     const {chain} = useNetwork();
+    const chainCurrent = convertToCorrectChains(chain?.id);
     const {data } = useQuery(
         'marketTokens',
-        () => axios.get(marketListUrl(chain?.id ?? 1)),
+        () => axios.get(marketListUrl(chainCurrent)),
         {
             refetchOnWindowFocus: false,
         }
@@ -18,7 +20,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
     
     if(!data?.data?.pools?.data) return [];
 
-    const tokens = data.data.pools.data.map((pool:tokenMarket, index:number) => {
+    const tokens = data.data.pools.data.map((pool:tokenMarket) => {
         return {
             name:shortName(pool.token.name),
             symbol:pool.token.symbol,
@@ -31,20 +33,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
             volume24h:convertNumbers(pool.volume24h),
             volume24hBtc:convertNumbers(pool.volume24h / +(data.data.btcPrice)),
             swaps24h:convertNumbers(pool.swaps24h),
-            graphic:[
-                { time: 1642425322, value: 0 },
-                { time: 1642511722, value: index * 5 },
-                { time: 1642598122, value: index + 5 },
-                { time: 1642598322, value: 4 },
-                { time: 1642684522, value: 8.22863710677195e-12 },
-                { time: 1642770922, value: index },
-                { time: 1642857322, value: index + 1 },
-                { time: 1642943722, value: 41 },
-                { time: 1642945722, value: index },
-                { time: 1643030122, value: index * 10 },
-                { time: 1643116522, value: index * 4 },
-                { time: 1643202922, value: 46 },
-            ],
+            address:pool._id.pair,
         }
     })
 

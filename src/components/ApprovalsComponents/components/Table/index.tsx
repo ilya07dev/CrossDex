@@ -6,6 +6,8 @@ import { LinkIcon } from "components/Icons";
 import cn from "classnames";
 import { ApprovalsTx } from "query/useGetApprovals";
 import { useRevoke } from "./model";
+import { useNetwork } from "wagmi";
+import { getScannerLink } from "utils/getScannerLink";
 
 interface IProps {
   className?: string;
@@ -22,6 +24,8 @@ const tableHead = [
 
 export function Table({ className, currentTokens }: IProps) {
   const revoke = useRevoke()
+  const {chain} = useNetwork();
+  const linkScanner = getScannerLink((chain?.id ?? 1));
 
   return (
     <table
@@ -86,7 +90,7 @@ export function Table({ className, currentTokens }: IProps) {
               <span className="ml-[10px] sm:ml-0">
                 {token.symbol}
               </span>
-              <LinkIcon />
+              <LinkIcon to={`${linkScanner}address/${token.addressContract}`} />
             </td>
             <td
               className={cn(
@@ -97,7 +101,7 @@ export function Table({ className, currentTokens }: IProps) {
               <span className="">
                 {extraShortenAddress(token.spender)}
               </span>
-              <LinkIcon />
+              <LinkIcon to={`${linkScanner}address/${token.spender}`} />
             </td>
             <td className="w-full">{token.value}</td>
             <td className="w-full">{token.date}</td>
