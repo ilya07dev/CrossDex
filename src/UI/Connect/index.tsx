@@ -12,13 +12,13 @@ import { shortenAddress } from "utils";
 import cn from "classnames";
 
 export function Connect() {
-  const {address, } = useAccount();
-  const {disconnect} = useDisconnect();
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
 
   return (
     <div className="flex items-center gap-[50px] w-fit relative z-[106]">
       <Link
-        to={routes.Approvals.link()}
+        to={routes.Swap.link()}
         className={cn(
           "flex items-center gap-[21px]",
           "text-[22px] text-white font-bold"

@@ -6,6 +6,7 @@ import { MarketGraphic } from "./Components/MarketGraphic";
 import cn from "classnames";
 import { tokenResultMarket } from "query/useGetMarket";
 import { convertGrow } from "utils/convertGrow";
+import { convertNumbers } from "utils";
 
 interface IProps {
   className?: string;
@@ -93,7 +94,7 @@ export function MarketTable({ className, currentTokens }: IProps) {
             <td>{token.price}</td>
             <td className="3xl:text-xl text-right flex items-center justify-end gap-1">
               <GrowIcon result={convertGrow(token.price24h)} />
-              {token.price24h}
+              {convertNumbers(token.price24h)}
             </td>
             <td className="3xl:text-xl text-right flex items-center justify-end gap-1">
               {token.holders}

@@ -10,8 +10,9 @@ export const useGetTrends = (): trendsTokens[] => {
 
     const {chain} = useNetwork();
     const chainCurrent = convertToCorrectChains(chain?.id);
+    console.log(chainCurrent)
     const {data } = useQuery(
-        'trendsTorkens',
+        ['trendsTorkens', chainCurrent],
         () => axios.get(hotTokensUrl(chainCurrent)),
         {
             refetchOnWindowFocus: false,

@@ -16,10 +16,9 @@ export interface infoToken {
 }
 
 export interface informationStatisticPair {
-    priceChangePercent:string,
-    priceChangeUsd:string,
+    priceChangePercent:number,
+    priceChangeUsd:number,
     volume:string,
-    priceChangePercentWhole:number,
     graphic:InformationgraphicPair[],
 }
 

@@ -11,6 +11,7 @@ import {
   MetamaskMobileIcon,
   SwapIcon,
 } from "./components/Icons";
+import { NetworkModal } from "UI/NetworkModal";
 
 export type RoutesType = "Swap" | "Approvals" | "Market" | "ConnectWallet";
 
@@ -54,6 +55,7 @@ export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <ToastContainer />
+      <NetworkModal />
       <Routes>
         <Route path={routes.Swap.path} element={<SwapPage />} />
         <Route path={routes.Approvals.path} element={<ApprovalsPage />} />

@@ -2,6 +2,7 @@ import { Icon, GrowIcon } from "components/Icons";
 
 import cn from "classnames";
 import { tokensType } from "./config";
+import { convertNumbers } from "utils";
 
 interface ICategorieProps {
   className?: string,
@@ -31,7 +32,7 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
       >
 
         {tokens.map((token) => {
-          const isGrow:boolean = +(String(token.changePercent).replace(">", '').replace("<", '')) >= 0;
+          const isGrow:boolean = +token.changePercent >= 0;
           return (
             <div
               className={cn(
@@ -59,12 +60,12 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
   
               <span className="flex items-center gap-1 justify-end">
                 <GrowIcon className="hidden sm:block" result={isGrow} />
-                {token.changeToken}
+                {convertNumbers(token.changeToken)}$
               </span>
   
               <span className="flex items-center gap-1 justify-end">
                 <GrowIcon result={isGrow} />
-                {token.changePercent}%
+                {convertNumbers(token.changePercent)}%
               </span>
             </div>
           )

@@ -1,5 +1,4 @@
 import { SwapGraphic } from "./components/SwapGraphic";
-import { TestBlock } from "./components/TestBlock";
 import { SwapTrends } from "./components/SwapTrends";
 import { SwapSearch } from "./components/SwapTrends/components/SwapSearch";
 
@@ -7,6 +6,7 @@ import { NavigationComponent } from "../NavigationComponent";
 
 import cn from "classnames";
 import { routes } from "App";
+import { SwapTokens } from "./components/SwapTokens";
 
 export function SwapComponents({ className }: { className?: string }) {
   return (
@@ -23,7 +23,7 @@ export function SwapComponents({ className }: { className?: string }) {
           "sm:gap-[30px] sm:mt-[20px] 3xl:mt-[8px]"
         )}
       >
-        <TestBlock className="hidden sm:block" />
+        <SwapTokens className="hidden sm:flex" />
         <NavigationComponent
           activePage={routes.Swap.title}
           className="sm:mb-[11px]"
@@ -31,7 +31,7 @@ export function SwapComponents({ className }: { className?: string }) {
       </div>
       <div className="flex flex-col flex-1 mt-5 sm:-mt-[80px] 3xl:-mt-[95px]">
         <SwapTrends />
-        <TestBlock className="block sm:hidden mt-5" />
+        <SwapTokens className="flex sm:hidden mt-5" />
         <SwapSearch className="flex sm:hidden mt-10" />
         <SwapGraphic />
       </div>

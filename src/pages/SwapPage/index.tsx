@@ -4,9 +4,12 @@ import { SwapComponents } from "components/SwapComponents";
 
 import cn from "classnames";
 import { useNavigateToken } from "./model";
+import { useSetTokenInfo } from "./model/setTokenInfo";
 
 export function SwapPage() {
   useNavigateToken();
+  useSetTokenInfo();
+  
   return (
     <main
       className={cn(

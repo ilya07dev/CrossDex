@@ -5,6 +5,7 @@ export const convertNumbers = (
   format?:string,
 ):string => {
 
+
   if(value.toString().includes("e")) {
     let data = String(value).split(/[eE]/);
     if (data.length == 1) return data[0];
@@ -37,12 +38,24 @@ export const convertNumbers = (
     const degreePositive = +value[value.length-1];
     value = value.slice(0, degreePositive+4);
   }
+  
+  if(
+    +value < 1
+    &&
+    +value > 0
+    ||
+    +value > -1
+    &&
+    +value < 0
+    &&
+    value.toString().length >= 4
+  ) {
+    value = value.toString();
+    value = `${value.slice(0, 4)}...${value.slice(-3)}`;
 
-  let result:string = numeral(value).format('0,0[.][00]' ?? format);
-
-  if(result.includes("NaN")) {
-    result = result.replace("NaN", "0")
+    return value
   }
+  let result:string = numeral(value).format('0,0[.][00]' ?? format);
 
   return result;
 }

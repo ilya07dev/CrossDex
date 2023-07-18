@@ -4,7 +4,7 @@ import { TimeModal } from "./components/TimeModal";
 import cn from "classnames";
 import { Social } from "./components/Social";
 import { infoToken, informationStatisticPair } from "../../config";
-import { formattedAddress } from "utils";
+import { convertNumbers, formattedAddress } from "utils";
 
 interface IProps {
   className?: string;
@@ -13,7 +13,7 @@ interface IProps {
 }
 
 export function GraphicHeader({ className, infoToken, statisticToken }: IProps) {
-  const isColor = statisticToken.priceChangePercentWhole > 0;
+  const isColor = statisticToken.priceChangePercent > 0;
 
   return (
     <article
@@ -91,10 +91,10 @@ export function GraphicHeader({ className, infoToken, statisticToken }: IProps) 
             }}
           >
             <p className="flex items-center gap-[10px] leading-[100%]">
-              {statisticToken.priceChangePercent}% <GrowIcon result={isColor} />
+              {convertNumbers(statisticToken.priceChangePercent)}% <GrowIcon result={isColor} />
             </p>
             <p className="flex items-center gap-[10px] leading-[100%]">
-              ${statisticToken.priceChangePercent} <GrowIcon result={isColor} />
+              ${convertNumbers(statisticToken.priceChangeUsd)}$ <GrowIcon result={isColor} />
             </p>
           </span>
           <Social links={infoToken.socLinks}  className="hidden sm:grid" />

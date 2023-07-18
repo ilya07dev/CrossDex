@@ -19,3 +19,7 @@ export { GlobalIcon } from "./GlobalIcon";
 export { TwitterIcon } from "./TwitterIcon";
 export { DiscordIcon } from "./DiscordIcon";
 export { MailIcon } from "./MailIcon";
+export { CloseIcon } from "./CloseIcon";
+export { ConnectArrIcon } from "./ConnectArrIcon";
+export { ModalArr } from "./ModalArr";
+export { SetIcon } from "./SetIcon";

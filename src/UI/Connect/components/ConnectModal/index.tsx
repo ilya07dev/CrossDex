@@ -19,16 +19,16 @@ export function ConnectModal({ className }: IProps) {
   const isMobile = useMediaQuery("(max-width: 640px)");
   const { isOpen, toggle, dropdownRef, close } = useDropdown();
 
-  const { connect} =useConnect()
-  const {address} = useAccount();
-  const {disconnect} = useDisconnect();
+  const { connect } = useConnect();
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
 
   return (
     <div ref={dropdownRef} className={cn("", className)}>
       <button
         onClick={toggle}
         className={cn(
-          "flex items-center gap-[15px] py-3 pl-[14px] pr-[26px] relative",
+          "flex items-center gap-[15px] py-3 pl-[14px] pr-[26px] relative min-w-max",
           "text-xl font-semibold bg-[#7BE9A5] rounded-r-secondary group"
         )}
       >
@@ -86,7 +86,9 @@ export function ConnectModal({ className }: IProps) {
                 "duration-500 hover:shadow-[6px_6px_1px_#224630] hover:scale-[0.95]"
               )}
               onClick={() => {
-                address ? disconnect() : connect({connector: connectorMetamask});
+                address
+                  ? disconnect()
+                  : connect({ connector: connectorMetamask });
                 isMobile && close();
               }}
             >

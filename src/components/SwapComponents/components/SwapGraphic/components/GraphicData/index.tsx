@@ -4,17 +4,17 @@ import { ColorType, createChart } from "lightweight-charts";
 import { InformationgraphicPair } from "../../config";
 
 interface GraphicSwapDataProps {
-  graphic:InformationgraphicPair[]
+  graphic: InformationgraphicPair[];
 }
 
-export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
-
+export function GraphicSwapData({ graphic }: GraphicSwapDataProps) {
   useEffect(() => {
     const chartDiv = document.getElementById(`swap-graphic-data`);
     if (chartDiv) {
       chartDiv.innerHTML = "";
       const chart = createChart(document.getElementById(`swap-graphic-data`)!, {
         autoSize: true,
+        height: 1,
         localization: {
           locale: "en",
         },
@@ -53,6 +53,7 @@ export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
         },
         layout: {
           fontSize: 18,
+
           fontFamily: "Figtree",
           textColor: "white",
           background: { type: ColorType.Solid, color: "#37383D" },
@@ -72,8 +73,6 @@ export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
         bottomColor: "#37383D",
         lineColor: "#7BE9A5",
       });
-
-      
 
       areaSeries.setData(graphic as any);
       const minTime = graphic[0].time;
@@ -97,10 +96,10 @@ export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
       chart.timeScale().fitContent();
     }
   }, [graphic]);
-  
+
   return (
     <div
-      className="w-full flex-grow h-[152px] sm:h-full mt-auto"
+      className="w-full flex-grow min-h-[270px] h-auto sm:min-h-max sm:h-full mt-auto"
       id={`swap-graphic-data`}
     ></div>
   );

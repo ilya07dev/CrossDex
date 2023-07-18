@@ -1,15 +1,15 @@
 
 export const addresses = {
     1:{
-        tokenAddress:"0x856c83B7C8E2F259AF7c90810ff8A85f93925Dbd",
-        pairAddress:"0xf29A5AdE4AbDdd589c024e7a0e17c4505a53aD1F"
+        tokenAddress:"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        pairAddress:"0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640"
     },
     56:{
-        tokenAddress:"0x2622220E94E95AE0071cbdCf26A1b444d92C7dA7",
-        pairAddress:"0xC41a7F69D252aE33FE5e8e0572240aD0c3ea142C"
+        tokenAddress:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        pairAddress:"0x29E731d29A1BaBF2492ef7acaf7eE1f5406b9B74"
     },
     137:{
-        tokenAddress:"0x6082ab7E0068512E74A577fDbF94730d958d0625",
-        pairAddress:"0x0400a4822d914c8C53C16261306B5f697380b542"
+        tokenAddress:"0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+        pairAddress:"0x5338968F9646e4A865D76e07C2A6E340Dd3aC462"
     },
 }

@@ -9,10 +9,11 @@ import { Pagination } from "UI";
 import cn from "classnames";
 import { usePagination } from "hooks/usePagination";
 import { useGetApprovals } from "query/useGetApprovals";
+import { NotData } from "UI/NotData";
 
 export function ApprovalsComponents({ className }: { className?: string }) {
-  const {items, pageCount, handlePageChange} = usePagination(useGetApprovals);
-
+  const { items, pageCount, handlePageChange } = usePagination(useGetApprovals);
+  console.log(`items: ${items}`);
   return (
     <section
       className={cn(
@@ -22,13 +23,15 @@ export function ApprovalsComponents({ className }: { className?: string }) {
       )}
     >
       <CareBlock className="flex mt-9 mr-[22px] sm:hidden" />
-      <div className="w-full overflow-x-scroll sm:overflow-x-hidden">
-        {items &&  
+      <div className="w-full overflow-x-scroll sm:overflow-x-hidden flex-1">
+        {items ? (
           <Table
             currentTokens={items}
             className="w-auto min-w-max mt-5 sm:mt-0"
           />
-        }
+        ) : (
+          <NotData data={items} />
+        )}
       </div>
       <div
         className={cn(

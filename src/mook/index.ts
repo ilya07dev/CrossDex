@@ -1,4 +1,5 @@
-import { IToken } from "./types";
+import { images } from "assets/img";
+import { INetwork, IToken } from "./types";
 
 export const tokensMook: IToken[] = [
   // {
@@ -518,5 +519,123 @@ export const tokensMook: IToken[] = [
         },
       },
     },
+  },
+];
+
+export const networksMook: INetwork[] = [
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  // {
+  //   name: "MATIC",
+  //   network: "on Polygon",
+  //   icon: NetIcon,
+  // },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  // {
+  //   name: "MATIC",
+  //   network: "on Polygon",
+  //   icon: NetIcon,
+  // },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  // {
+  //   name: "MATIC",
+  //   network: "on Polygon",
+  //   icon: NetIcon,
+  // },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
+  },
+  {
+    name: "MATIC",
+    network: "on Polygon",
+    icon: images.polygon,
   },
 ];

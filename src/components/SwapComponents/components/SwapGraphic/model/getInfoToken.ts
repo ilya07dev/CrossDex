@@ -11,21 +11,20 @@ import { informationStatisticPair, InformationgraphicPair } from "../config";
 import { useStore } from "effector-react";
 import { $timeCuurent } from "pages/SwapPage/model";
 import { convertToCorrectChains } from "utils/convertCorrectChains";
-import { addresses } from "pages/SwapPage/config";
+import { $choseTokenSwap } from "pages/SwapPage/model/stateChoseToken";
 
 
 export const useGetInfoToken = () => {
     const [query] = useSearchParams();
-    const pairAddress = query.get("pairAddress");
-
+    const choseToken = useStore($choseTokenSwap);
     const timeCurent = useStore($timeCuurent)
     const network = query.get("network");
     const {chain} = useNetwork();
     const chainCurrent = convertToCorrectChains(chain?.id ?? Number(network));
 
     const {data:tokenGraphic } = useQuery(
-        "infoTokenGraphic",
-        () => axios.get(tradingTokensUrl(pairAddress ?? addresses["1"].pairAddress, chainCurrent, timeCurent)),
+        ["infoTokenGraphic", choseToken, timeCurent],
+        (args:any) => axios.get(tradingTokensUrl(args.queryKey[1].pairAddress, chainCurrent, args.queryKey[2])),
         {
             refetchOnWindowFocus: false,
         }
@@ -33,37 +32,36 @@ export const useGetInfoToken = () => {
     
 
     const {data:token } = useQuery(
-        "infoTokenSwap",
-        () => axios.get(infoTokenUrl(pairAddress ?? addresses["1"].pairAddress, chainCurrent)),
+        ["infoTokenSwap", choseToken],
+        (choseToken:any) => axios.get(infoTokenUrl(choseToken.queryKey[1].pairAddress, chainCurrent)),
         {
             refetchOnWindowFocus: false,
         }
     ); 
 
-    const tokenResponse:tokenInfo = token?.data.pairs.data;
+    const tokenResponse:tokenInfo = token?.data?.pairs?.data;
     
     if(!token?.data) return null;
     const graphic:InformationgraphicPair[] = tokenGraphic?.data;
     if(!graphic) return null;
 
     const price = tokenResponse.priceUsd;
-    const pricegaphic = graphic[graphic.length-1].value;
-    const priceChangePercentWhole = (price-pricegaphic) / pricegaphic;
+    const priceGraphic = graphic[graphic.length-1].value;
+    const priceChangePercent = (price-priceGraphic) / priceGraphic * 100;
+    
     const statisticInfo:informationStatisticPair = {
         volume:convertNumbers(graphic.reduce((acc, info) => acc+info.volume, 0)),
-        priceChangePercent:convertNumbers(priceChangePercentWhole),
-        priceChangePercentWhole,
-        priceChangeUsd:convertNumbers(price - pricegaphic),
+        priceChangePercent,
+        priceChangeUsd:price - priceGraphic,
 
         graphic,
     }
-    
 
     const tokenInfo:infoToken = {
         price:convertNumbers(tokenResponse.priceUsd),
-        nameToken:tokenResponse.baseTokenData.name,
-        symbolToken:tokenResponse.baseTokenData.symbol,
-        addressToken:tokenResponse.baseTokenData.address,
+        nameToken:tokenResponse.token0Name,
+        symbolToken:tokenResponse.token0Symbol,
+        addressToken:tokenResponse.token0,
         symbolToken2:tokenResponse.token1Symbol,
         addressToken2:tokenResponse.token1,
         symbolPair:tokenResponse.baseTokenPairs[0].baseTokenData.symbol,
