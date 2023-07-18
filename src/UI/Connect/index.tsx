@@ -12,8 +12,8 @@ import { shortenAddress } from "utils";
 import cn from "classnames";
 
 export function Connect() {
-  const { address } = useAccount();
-  const { disconnect } = useDisconnect();
+  const {address, } = useAccount();
+  const {disconnect} = useDisconnect();
 
   return (
     <div className="flex items-center gap-[50px] w-fit relative z-[106]">

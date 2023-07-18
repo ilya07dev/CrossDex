@@ -7,6 +7,9 @@ import cn from "classnames";
 import { tokenResultMarket } from "query/useGetMarket";
 import { convertGrow } from "utils/convertGrow";
 import { convertNumbers } from "utils";
+import { Link } from "react-router-dom";
+import { useStore } from "effector-react";
+import { $choseChain } from "config/stateChain";
 
 interface IProps {
   className?: string;
@@ -25,6 +28,8 @@ export function MarketTable({ className, currentTokens }: IProps) {
     "Swaps 24h",
     "Last 7d",
   ];
+  const chain = useStore($choseChain);
+  
   return (
     <table
       className={cn(
@@ -65,7 +70,8 @@ export function MarketTable({ className, currentTokens }: IProps) {
         )}
       >
         {currentTokens.map((token, index) => (
-          <tr
+          <Link
+            to={`/?pairAddress=${token.address}&network=${chain}`}
             key={token.logo}
             className={cn(
               "grid grid-cols-[14%_7%_7%_7%_7%_14%_13%_16%_14%] 2xl:grid-cols-[16%_7%_7%_7%_7%_14%_14%_14%_14%]",
@@ -115,7 +121,7 @@ export function MarketTable({ className, currentTokens }: IProps) {
               index={index} 
               address={token.address}
             />
-          </tr>
+          </Link>
         ))}
       </tbody>
     </table>

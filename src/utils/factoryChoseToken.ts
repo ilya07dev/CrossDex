@@ -2,14 +2,11 @@
 import { createEvent, createStore } from "effector";
 
 interface choseToken {
-    tokenAddress:string,
     pairAddress:string,
 }
 
-const factoryChoseToken = <T>(
-    initData:T
-) => {
-    const $choseToken = createStore<T | choseToken>(initData);
+const factoryChoseToken = () => {
+    const $choseToken = createStore<choseToken | null>(null);
 
     const changeToken = createEvent<choseToken>();
 

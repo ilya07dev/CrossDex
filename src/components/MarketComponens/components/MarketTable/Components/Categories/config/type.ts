@@ -4,4 +4,5 @@ export interface tokensType {
     logo:string,
     changeToken:string | number,
     changePercent:string | number,
+    address:string,
 }

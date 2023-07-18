@@ -9,15 +9,13 @@ import { convertNumbers } from "utils";
 import { convertChain } from "utils/convertChain";
 
 
-// import { useSearchPair } from "libs/swap/useSearhcPair";
-
 interface IProps {
   className?: string;
 }
 
 export function SwapSearch({ className }: IProps) {
-  const {inputSearch, choseToken, dropDown, tokens, onSetToken} = useSearchTokens(changeToken)
-
+  const {inputSearch, choseToken, dropDown, tokens, onSetToken} = useSearchTokens(changeToken);
+  
   return (
     <div
       ref={dropDown.dropdownRef}
@@ -34,7 +32,7 @@ export function SwapSearch({ className }: IProps) {
           )}
         >
           <img
-            src={convertLinkImg(choseToken.token?.baseTokenLogo, choseToken.token?.address)}
+            src={convertLinkImg(choseToken.token?.address)}
             className={cn(
               "w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] rounded-full"
             )}
@@ -69,22 +67,19 @@ export function SwapSearch({ className }: IProps) {
         )}
       >
         {tokens
-          ?.filter((tk:searchToken) =>
-            tk?.baseTokenSymbol?.toUpperCase().includes(inputSearch.value.toUpperCase())
-          )
           .map((el: searchToken,) => (
             <button 
               className="flex items-center gap-[15px] pl-[26px] py-[10px] cursor-pointer" 
               style={{justifyContent: "space-between", paddingRight: "10px"}}
-              onClick={onSetToken(el)}
+              onClick={onSetToken(el, true)}
             >
               <div style={{display: "flex", gap: "20px"}}>
                 <img 
-                  src={convertLinkImg(el.baseTokenLogo, el.baseToken)} 
+                  src={convertLinkImg(el.baseToken)} 
                   className="w-8 h-8 aspect-square"
                 />
                 <img 
-                  src={convertLinkImg(el.quoteTokenLogo, el.quoteToken)}
+                  src={convertLinkImg(el.quoteToken)}
                   className="ml-2 w-8 h-8 aspect-square" 
                   style={{position: "absolute", left: "40px", background: "rgb(223, 221, 211)"}}
                 />

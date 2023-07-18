@@ -1,22 +1,20 @@
 import axios from "axios";
-import { useNetwork } from 'wagmi';
 import { infoTokenUrl, marketListUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
 import { tokenMarket, tokenResultMarket, graphic } from "./type";
 import { convertNumbers } from "utils";
 import { shortName } from "utils/shortName";
-import { convertToCorrectChains } from "utils/convertCorrectChains";
 import { useStore } from "effector-react";
 import { $choseTokenMarket } from "pages/MarketPage/model";
 import { convertLinkImg } from "utils/convertLinkimg";
+import { $choseChain } from "config/stateChain";
 
 export const useGetMarket = ():tokenResultMarket[] => {
-    const {chain} = useNetwork();
-    const chainCurrent = convertToCorrectChains(chain?.id);
+    const chain = useStore($choseChain);
     const choseToken = useStore($choseTokenMarket);
 
     const {data:searchToken } = useQuery(
-        ['marketTokens', choseToken, chainCurrent],
+        ['marketTokens', choseToken, chain],
         (args:any) => axios.get(infoTokenUrl(args.queryKey[1]?.pairAddress ?? '', args.queryKey[2])),
         {
             refetchOnWindowFocus: false,
@@ -24,7 +22,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
     );
 
     const {data } = useQuery(
-        ['marketTokens', chainCurrent],
+        ['marketTokens', chain],
         (args:any) => axios.get(marketListUrl(args.queryKey[1])),
         {
             refetchOnWindowFocus: false,
@@ -39,7 +37,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
         tokens = [{
             name:shortName(poolSearch.token0Name),
             symbol:poolSearch.token0Symbol,
-            logo:convertLinkImg(poolSearch.baseTokenLogo, poolSearch.token0),
+            logo:convertLinkImg(poolSearch.token0),
             price:convertNumbers(poolSearch.priceUsd),
             price24h:poolSearch.newInformation.priceChange24h,
             holders:'...',
@@ -55,7 +53,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
             return {
                 name:shortName(pool.token.name),
                 symbol:pool.token.symbol,
-                logo:`https://www.dextools.io/resources/tokens/logos/${pool.token.logo}`,
+                logo:convertLinkImg(pool.token.reprPair.id.token),
                 price:convertNumbers(pool.price),
                 price24h:pool.price24h,
                 holders:convertNumbers(pool.token.metrics.holders),

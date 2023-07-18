@@ -2,22 +2,22 @@ import {useQuery} from 'react-query';
 import axios from 'axios';
 import { hotTokensUrl } from 'query/apiUrl';
 import {trendsTokens} from './type'
-import { useNetwork } from 'wagmi';
-import { convertToCorrectChains } from 'utils/convertCorrectChains';
+import { useStore } from 'effector-react';
+import { $choseChain } from 'config/stateChain';
 
 
 export const useGetTrends = (): trendsTokens[] => {
 
-    const {chain} = useNetwork();
-    const chainCurrent = convertToCorrectChains(chain?.id);
-    console.log(chainCurrent)
+    const chain = useStore($choseChain);
+    
     const {data } = useQuery(
-        ['trendsTorkens', chainCurrent],
-        () => axios.get(hotTokensUrl(chainCurrent)),
+        ['trendsTorkens', chain],
+        (args:any) => axios.get(hotTokensUrl(args.queryKey[1])),
         {
             refetchOnWindowFocus: false,
         }
     );
+    
     
     if(!data?.data?.pairs?.data) return [];
 

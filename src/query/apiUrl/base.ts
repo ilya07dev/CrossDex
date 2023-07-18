@@ -1,6 +1,6 @@
 
 
-export const SERVER = "http://localhost:3001/";
+export const SERVER = "https://server-cross-dex.vercel.app/";
 
 
 export const ЕTHER_SCAN = "https://api.etherscan.io/api?module=account&action=txlist&address=";

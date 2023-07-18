@@ -4,6 +4,7 @@ import cn from "classnames";
 
 import { trendsTokens, useGetTrends } from "query/useGetTrends";
 import { mockTokenImage } from "mook/linkImg";
+import { Link } from "react-router-dom";
 
 // const appChain = 56;
 
@@ -33,8 +34,9 @@ export const SwapMarquee = () => {
         )}
       >
         {data.map((trendToken) => (
-          <span
+          <Link
             key={trendToken._id}
+            to={`/?pairAddress=${trendToken.address}&network=${trendToken.chainId}`}
             className={cn(
               "flex items-center cursor-pointer",
               "gap-[5px] sm:gap-[15px] mx-[15px] 3xl:mx-[26px]"
@@ -48,7 +50,7 @@ export const SwapMarquee = () => {
             <span className="font-medium text-[12px] sm:text-[30px] sm:text-lg">
               {trendToken.baseTokenSymbol}
             </span>
-          </span>
+          </Link>
         ))}
       </Marquee>
     </div>

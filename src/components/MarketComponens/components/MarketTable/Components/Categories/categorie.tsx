@@ -3,6 +3,9 @@ import { Icon, GrowIcon } from "components/Icons";
 import cn from "classnames";
 import { tokensType } from "./config";
 import { convertNumbers } from "utils";
+import { Link } from "react-router-dom";
+import { useStore } from "effector-react";
+import { $choseChain } from "config/stateChain";
 
 interface ICategorieProps {
   className?: string,
@@ -11,6 +14,8 @@ interface ICategorieProps {
 }
 
 export function Categorie({ className,title, tokens }: ICategorieProps) {
+  
+  const chain = useStore($choseChain)
   
   return (
     <article
@@ -34,7 +39,9 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
         {tokens.map((token) => {
           const isGrow:boolean = +token.changePercent >= 0;
           return (
-            <div
+            <Link
+              to={`/?pairAddress=${token.address}&network=${chain}`}
+            
               className={cn(
                 "grid grid-cols-[auto_1fr_1fr]",
                 "gap-[10px] sm:gap-[18px]"
@@ -67,7 +74,7 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
                 <GrowIcon result={isGrow} />
                 {convertNumbers(token.changePercent)}%
               </span>
-            </div>
+            </Link>
           )
         })}
 

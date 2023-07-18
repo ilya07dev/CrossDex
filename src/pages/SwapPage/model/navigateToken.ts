@@ -1,31 +1,34 @@
 
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { mainnet, useNetwork } from 'wagmi'
 import { useEffect } from 'react';
-import { addresses } from '../config';
+import { useStore } from 'effector-react';
+import { $choseChain } from 'config/stateChain';
+import { useGetTrends } from 'query/useGetTrends';
+import { changeToken } from './stateChoseToken';
 
 export const useNavigateToken = () => {
     const [query] = useSearchParams();
     const navigate = useNavigate();
-    const {chain} = useNetwork();
+    const chain = useStore($choseChain);
+    const trends = useGetTrends()
 
     useEffect(() => {
-        let tokenAddress = query.get("tokenAddress");
 
-        tokenAddress = addresses["1"].tokenAddress;
-        let pairAddress = addresses["1"].pairAddress;
-            
-        switch(chain?.id ?? mainnet.id) {
-            case 56:
-                tokenAddress=addresses["56"].tokenAddress;
-                pairAddress=addresses["56"].pairAddress;
-                break;
-            case 137:
-                tokenAddress=addresses["137"].tokenAddress;
-                pairAddress=addresses["137"].pairAddress;
-                break;
+        let pairAddress = query.get("pairAddress");
+        let network = query.get("network");
+        
+        if(!network || network === "undefined" || network === "null") {
+            network = "1";
         }
+        if(!pairAddress || pairAddress === "undefined" || pairAddress === "null") {
+            // @ts-ignore
+            pairAddress = trends[0]?.address;
+        }  
 
-        return navigate(`/?tokenAddress=${tokenAddress}&pairAddress=${pairAddress}&network=${chain?.id ?? 1}`);
-    }, [query,navigate,chain])
+        changeToken({
+            pairAddress,
+        })
+
+        return navigate(`/?pairAddress=${pairAddress}&network=${network}`);
+    }, [query,navigate,chain, trends])
 }

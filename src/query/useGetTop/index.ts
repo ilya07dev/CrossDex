@@ -4,6 +4,7 @@ import { looserToken } from "./type";
 import { tokensType } from "components/MarketComponens/components/MarketTable/Components/Categories/config";
 import { useNetwork } from 'wagmi';
 import { convertToCorrectChains } from "utils/convertCorrectChains";
+import { convertLinkImg } from "utils/convertLinkimg";
 
 
 export const useGetTops = (
@@ -30,9 +31,10 @@ export const useGetTops = (
         if(index > 2) return null
         tokensTop.push({
             name:token.token.symbol,
-            logo:`https://www.dextools.io/resources/tokens/logos/${token.token.logo}`,
+            logo:convertLinkImg(token.token.reprPair.id.token),
             changeToken:token.price + (token.priceDiff / 100),
             changePercent:token.priceDiff,
+            address:token.token.reprPair.id.pair,
         })
     })
 

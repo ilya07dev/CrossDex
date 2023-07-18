@@ -22,8 +22,9 @@ interface IProps {
 
 export function SwapTokens({ className }: IProps) {
   const [selectedNetwork, setSelectedNetwork] = useState<INetwork | null>(null);
-  const { connect } = useConnect();
-  const { address } = useAccount();
+  const {connect} = useConnect();
+  const {address} = useAccount();
+  
   return (
     <div
       className={cn(
@@ -77,7 +78,7 @@ export function SwapTokens({ className }: IProps) {
             "text-base sm:text-xl font-semibold",
             selectedNetwork ? "mt-[8px]" : "mt-5 sm:mb-auto"
           )}
-          onClick={() => connect({ connector: connectorMetamask })}
+          onClick={() => connect({connector:connectorMetamask})}
         >
           <MetaMaskIcon className="hidden sm:block" />
           <img

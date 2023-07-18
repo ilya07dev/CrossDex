@@ -4,10 +4,11 @@ import { ColorType, createChart } from "lightweight-charts";
 import { InformationgraphicPair } from "../../config";
 
 interface GraphicSwapDataProps {
-  graphic: InformationgraphicPair[];
+  graphic:InformationgraphicPair[]
 }
 
-export function GraphicSwapData({ graphic }: GraphicSwapDataProps) {
+export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
+
   useEffect(() => {
     const chartDiv = document.getElementById(`swap-graphic-data`);
     if (chartDiv) {
@@ -53,7 +54,6 @@ export function GraphicSwapData({ graphic }: GraphicSwapDataProps) {
         },
         layout: {
           fontSize: 18,
-
           fontFamily: "Figtree",
           textColor: "white",
           background: { type: ColorType.Solid, color: "#37383D" },

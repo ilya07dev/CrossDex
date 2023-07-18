@@ -1,8 +1,6 @@
 import axios from "axios";
-import { useNetwork } from 'wagmi'
 import { infoTokenUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
-import { useSearchParams } from "react-router-dom";
 import {infoToken } from "../config";
 import { tokenInfo } from "query/useGetTokenInfo";
 import { convertNumbers } from "utils";
@@ -12,19 +10,20 @@ import { useStore } from "effector-react";
 import { $timeCuurent } from "pages/SwapPage/model";
 import { convertToCorrectChains } from "utils/convertCorrectChains";
 import { $choseTokenSwap } from "pages/SwapPage/model/stateChoseToken";
+import { $choseChain } from "config/stateChain";
+import { TIME_VARIANTS } from "pages/SwapPage/config";
 
 
 export const useGetInfoToken = () => {
-    const [query] = useSearchParams();
     const choseToken = useStore($choseTokenSwap);
-    const timeCurent = useStore($timeCuurent)
-    const network = query.get("network");
-    const {chain} = useNetwork();
-    const chainCurrent = convertToCorrectChains(chain?.id ?? Number(network));
+    const timeCurent = useStore($timeCuurent);
+
+    const chain = useStore($choseChain);
+    const chainCurrent = convertToCorrectChains(chain);
 
     const {data:tokenGraphic } = useQuery(
-        ["infoTokenGraphic", choseToken, timeCurent],
-        (args:any) => axios.get(tradingTokensUrl(args.queryKey[1].pairAddress, chainCurrent, args.queryKey[2])),
+        ["infoTokenGraphic", choseToken, timeCurent, chainCurrent],
+        (args:any) => axios.get(tradingTokensUrl(args.queryKey[1].pairAddress, args.queryKey[3], args.queryKey[2])),
         {
             refetchOnWindowFocus: false,
         }
@@ -32,8 +31,8 @@ export const useGetInfoToken = () => {
     
 
     const {data:token } = useQuery(
-        ["infoTokenSwap", choseToken],
-        (choseToken:any) => axios.get(infoTokenUrl(choseToken.queryKey[1].pairAddress, chainCurrent)),
+        ["infoTokenSwap", choseToken, chainCurrent],
+        (args:any) => axios.get(infoTokenUrl(args.queryKey[1].pairAddress, args.queryKey[2])),
         {
             refetchOnWindowFocus: false,
         }
@@ -42,7 +41,14 @@ export const useGetInfoToken = () => {
     const tokenResponse:tokenInfo = token?.data?.pairs?.data;
     
     if(!token?.data) return null;
-    const graphic:InformationgraphicPair[] = tokenGraphic?.data;
+    const fromHistory = Date.now() / 1000;
+    const timeStamp:Record<TIME_VARIANTS, number> = {
+        H24:86400,
+        H12:43_200,
+        H6:21_600,
+        H1:3_600,
+    };
+    const graphic:InformationgraphicPair[] = tokenGraphic?.data?.filter((history:InformationgraphicPair) => fromHistory-timeStamp[timeCurent] < history.time);
     if(!graphic) return null;
 
     const price = tokenResponse.priceUsd;

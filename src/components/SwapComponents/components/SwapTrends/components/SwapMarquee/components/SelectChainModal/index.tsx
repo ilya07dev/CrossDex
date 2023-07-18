@@ -5,34 +5,23 @@ import { useDropdown, useMediaQuery } from "hooks";
 import { ArrModalIcon } from "components/Icons/ArrModalIcon";
 
 import cn from "classnames";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import { useState } from "react";
 import { polygon, bsc, mainnet } from "wagmi/chains";
-import { useSearchParams } from "react-router-dom";
+import { useStore } from "effector-react";
+import { $choseChain, changeChain, chainQuery } from "config/stateChain";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   className?: string;
 }
 
 const chains = [mainnet, bsc, polygon];
-const chainQuery = {
-  [mainnet.id]:mainnet,
-  [bsc.id]:bsc,
-  [polygon.id]:polygon,
-};
 
 export function SelectChainModal({ className }: IProps) {
-  const {switchNetworkAsync} = useSwitchNetwork();
-  const {chain} = useNetwork();
   const isMobile = useMediaQuery("(max-width: 640px)");
+  const navigate = useNavigate();
   const { isOpen, toggle, dropdownRef, close } = useDropdown();
 
-  const [query] = useSearchParams();
-
-  // @ts-ignore
-  const [offChain, setChain] = useState(chainQuery[query.get("network")]);
-  const {address} = useAccount();
-  
+  const chain = useStore($choseChain);
 
   return (
     <div
@@ -52,7 +41,8 @@ export function SelectChainModal({ className }: IProps) {
           !isOpen ? "border-[#45464A] bg-c-secondary" : "border-transparent"
         )}
       >
-        <span className="cursor-pointer">{offChain?.nativeCurrency.symbol ?? chain?.nativeCurrency.symbol}</span>
+        {/* @ts-ignore */}
+        <span className="cursor-pointer">{chainQuery[chain].nativeCurrency.symbol}</span>
         <ArrModalIcon
           width={isMobile ? 10.7 : 15.7}
           height={isMobile ? 10.7 : 15.7}
@@ -76,16 +66,9 @@ export function SelectChainModal({ className }: IProps) {
               "w-full flex justify-start cursor-pointer leading-[120%]",
               "py-1 pl-[15px] sm:pl-[22px]"
             )}
-            onClick={async () => {
-              // @ts-ignore
-              if(address) await switchNetworkAsync(el.id);
-              setChain(el)
-              // // @ts-ignore
-              // setQuery({
-              //   network:el.id.toString(),
-              //   // tokenAddress:query.get("tokenAddress"),
-              //   pairAddress:query.get("pairAddress")
-              // })
+            onClick={() => {
+              changeChain(el.id);
+              navigate(`/?pairAddress=null&network=${el.id}`)
               close();
             }}
             key={el.nativeCurrency.symbol}
