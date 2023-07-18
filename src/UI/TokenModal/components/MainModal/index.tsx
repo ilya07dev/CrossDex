@@ -1,5 +1,5 @@
 import { CloseIcon } from "components/Icons";
-import { SelectList } from "./components/SelectList";
+import { SelectListTokens } from "./components/SelectList";
 
 import { networksMook } from "mook";
 import { INetwork } from "mook/types";
@@ -9,24 +9,24 @@ import { useMediaQuery } from "hooks";
 import { TypeModal } from "../../types";
 
 import cn from "classnames";
+import { useSwitchNetwork } from "wagmi";
 
 interface IProps {
   className?: string;
   isOpen?: boolean;
   close?: () => void;
-  setSelectedNetwork: (el: INetwork) => void;
   setActive: (el: TypeModal) => void;
 }
 
 export function MainModal({
   isOpen,
   close,
-  setSelectedNetwork,
   setActive,
 }: IProps) {
   const isMobile = useMediaQuery("(max-width: 640px)");
   const count = isMobile ? 4 : 7;
   const selectedTokens: INetwork[] = networksMook.slice(0, count);
+  const {switchNetworkAsync} = useSwitchNetwork();
 
   return (
     <article
@@ -84,7 +84,7 @@ export function MainModal({
               "p-[10px] rounded-[10px] sm:rounded-[20px] bg-c-secondary"
             )}
             onClick={() => {
-              setSelectedNetwork(el);
+              // switchNetworkAsync(el.network)
               close && close();
             }}
           >
@@ -120,9 +120,8 @@ export function MainModal({
       >
         Select token
       </h4>
-      <SelectList
+      <SelectListTokens
         close={close!}
-        setSelectedNetwork={setSelectedNetwork}
         className="mt-[10px]"
       />
     </article>

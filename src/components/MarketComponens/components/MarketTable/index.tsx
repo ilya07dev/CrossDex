@@ -97,25 +97,25 @@ export function MarketTable({ className, currentTokens }: IProps) {
               </span>
             </td>
 
-            <td>{token.price}</td>
+            <td>{convertNumbers(token.price)}</td>
             <td className="3xl:text-xl text-right flex items-center justify-end gap-1">
               <GrowIcon result={convertGrow(token.price24h)} />
-              {convertNumbers(token.price24h)}
+              <span>{convertNumbers(token.price24h)}</span>
             </td>
             <td className="3xl:text-xl text-right flex items-center justify-end gap-1">
-              {token.holders}
+              {convertNumbers(token.holders)}
             </td>
             <td className="3xl:text-xl flex items-center justify-end gap-1">
-              {token.txCount}
+              {convertNumbers(token.txCount)}
             </td>
             <td>{token.mcap}$</td>
             <td>
-              {token.volume24h}$
+              {convertNumbers(token.volume24h)}$
               <p className="text-xl text-[#9B9898] font-semibold mt-1">
-                {token.volume24hBtc} BTC
+                {convertNumbers(token.volume24hBtc)} BTC
               </p>
             </td>
-            <td>{token.swaps24h}</td>
+            <td>{convertNumbers(token.swaps24h)}</td>
             
             <MarketGraphic 
               index={index} 

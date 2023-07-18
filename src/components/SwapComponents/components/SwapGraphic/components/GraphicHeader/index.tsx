@@ -79,7 +79,7 @@ export function GraphicHeader({ className, infoToken, statisticToken }: IProps) 
               "text-white leading-[120%] font-bold"
             )}
           >
-            {infoToken.price}
+            {convertNumbers(infoToken.price)}
           </h2>
           <span
             className={cn(
@@ -91,10 +91,10 @@ export function GraphicHeader({ className, infoToken, statisticToken }: IProps) 
             }}
           >
             <p className="flex items-center gap-[10px] leading-[100%]">
-              {convertNumbers(statisticToken.priceChangePercent)}% <GrowIcon result={isColor} />
+              <span>{convertNumbers(statisticToken.priceChangePercent)}%</span> <GrowIcon result={isColor} />
             </p>
             <p className="flex items-center gap-[10px] leading-[100%]">
-              ${convertNumbers(statisticToken.priceChangeUsd)}$ <GrowIcon result={isColor} />
+              <span>${convertNumbers(statisticToken.priceChangeUsd)}$ </span><GrowIcon result={isColor} />
             </p>
           </span>
           <Social links={infoToken.socLinks}  className="hidden sm:grid" />
@@ -104,7 +104,7 @@ export function GraphicHeader({ className, infoToken, statisticToken }: IProps) 
         <TimeModal />
         <p className="text-lg text-white">
           <span className="opacity-[0.5]">Vol.</span>
-          <span className="ml-3">{statisticToken.volume}</span>
+          <span className="ml-3">{convertNumbers(statisticToken.volume)}</span>
         </p>
       </div>
 

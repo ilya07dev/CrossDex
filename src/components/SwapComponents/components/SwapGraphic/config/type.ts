@@ -1,6 +1,6 @@
 
 export interface infoToken {
-    price:string,
+    price:number,
     nameToken:string,
     symbolToken:string,
     addressToken:string,
@@ -18,7 +18,7 @@ export interface infoToken {
 export interface informationStatisticPair {
     priceChangePercent:number,
     priceChangeUsd:number,
-    volume:string,
+    volume:number,
     graphic:InformationgraphicPair[],
 }
 

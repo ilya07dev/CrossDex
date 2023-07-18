@@ -68,8 +68,7 @@ export function Table({ className, currentTokens }: IProps) {
         )}
       >
         {currentTokens.length ? currentTokens.map((token, i) => (
-          <Link
-            to={`/?pairAddress=${token.addressContract}&network=${chain}`}
+          <div
             key={token.date+token.logo}
             className={cn(
               "flex justify-between items-center",
@@ -119,7 +118,7 @@ export function Table({ className, currentTokens }: IProps) {
                 <span className="relative z-[1]">Revoke</span>
               </button>
             </td>
-          </Link>
+          </div>
         ))
       :
       <NotData data={currentTokens} />

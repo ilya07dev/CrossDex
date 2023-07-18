@@ -1,6 +1,7 @@
 
 
 export const SERVER = "https://server-cross-dex.vercel.app/";
+export const BTC_PRICE = "https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT";
 
 
 export const ЕTHER_SCAN = "https://api.etherscan.io/api?module=account&action=txlist&address=";

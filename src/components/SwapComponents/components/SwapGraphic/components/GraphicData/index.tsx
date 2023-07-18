@@ -75,8 +75,8 @@ export function GraphicSwapData({graphic}: GraphicSwapDataProps) {
       });
 
       areaSeries.setData(graphic as any);
-      const minTime = graphic[0].time;
-      const maxTime = graphic[graphic.length - 1].time;
+      const minTime = graphic?.[0]?.time;
+      const maxTime = graphic?.[graphic.length - 1]?.time;
       chart
         .timeScale()
         .subscribeVisibleTimeRangeChange((visibleTimeRange: any) => {

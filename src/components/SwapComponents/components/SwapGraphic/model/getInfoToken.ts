@@ -3,7 +3,6 @@ import { infoTokenUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
 import {infoToken } from "../config";
 import { tokenInfo } from "query/useGetTokenInfo";
-import { convertNumbers } from "utils";
 import { tradingTokensUrl } from "query/apiUrl";
 import { informationStatisticPair, InformationgraphicPair } from "../config";
 import { useStore } from "effector-react";
@@ -41,6 +40,7 @@ export const useGetInfoToken = () => {
     const tokenResponse:tokenInfo = token?.data?.pairs?.data;
     
     if(!token?.data) return null;
+    if(!tokenGraphic?.data) return null;
     const fromHistory = Date.now() / 1000;
     const timeStamp:Record<TIME_VARIANTS, number> = {
         H24:86400,
@@ -48,15 +48,15 @@ export const useGetInfoToken = () => {
         H6:21_600,
         H1:3_600,
     };
+
     const graphic:InformationgraphicPair[] = tokenGraphic?.data?.filter((history:InformationgraphicPair) => fromHistory-timeStamp[timeCurent] < history.time);
-    if(!graphic) return null;
 
     const price = tokenResponse.priceUsd;
-    const priceGraphic = graphic[graphic.length-1].value;
+    const priceGraphic = graphic?.[0]?.value ?? '0';
     const priceChangePercent = (price-priceGraphic) / priceGraphic * 100;
     
     const statisticInfo:informationStatisticPair = {
-        volume:convertNumbers(graphic.reduce((acc, info) => acc+info.volume, 0)),
+        volume:graphic?.reduce((acc, info) => acc+info.volume, 0),
         priceChangePercent,
         priceChangeUsd:price - priceGraphic,
 
@@ -64,7 +64,7 @@ export const useGetInfoToken = () => {
     }
 
     const tokenInfo:infoToken = {
-        price:convertNumbers(tokenResponse.priceUsd),
+        price:tokenResponse.priceUsd,
         nameToken:tokenResponse.token0Name,
         symbolToken:tokenResponse.token0Symbol,
         addressToken:tokenResponse.token0,

@@ -16,7 +16,7 @@ export function SwapPage() {
         "2xl:w-screen 2xl:h-screen 2xl:overflow-hidden",
         "pt-[30px] sm:pt-[30px] sm:pb-[20px] pl-[22px] sm:px-5 xl:px-10 2xl:px-[65px] 3xl:p-[100px]"
       )}
-    >
+    > 
       <Connect />
       <SwapComponents className="sm:mt-6 3xl:mt-10" />
     </main>

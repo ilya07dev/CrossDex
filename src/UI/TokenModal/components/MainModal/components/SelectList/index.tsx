@@ -2,14 +2,17 @@ import { networksMook } from "mook";
 import { INetwork } from "mook/types";
 
 import cn from "classnames";
+import { tokensBridge, useGetTokensBridge } from "query/useGetTokensBridge";
 
 interface IProps {
   className?: string;
-  setSelectedNetwork: (el: INetwork) => void;
   close: () => void;
 }
 
-export function SelectList({ className, setSelectedNetwork, close }: IProps) {
+export function SelectListTokens({ className, close }: IProps) {
+  const tokens = useGetTokensBridge();
+  console.log(tokens)
+
   return (
     <div
       className={cn(
@@ -19,14 +22,14 @@ export function SelectList({ className, setSelectedNetwork, close }: IProps) {
         className
       )}
     >
-      {networksMook.map((network: INetwork, i: number) => (
+      {tokens.map((token: tokensBridge) => (
         <div
           className="flex items-center justify-between cursor-pointer"
-          key={i}
+          key={token.address+token.chainId}
         >
           <div
             onClick={() => {
-              setSelectedNetwork(network);
+              // setSelectedNetwork(network);
               close();
             }}
             className={cn(
@@ -35,7 +38,7 @@ export function SelectList({ className, setSelectedNetwork, close }: IProps) {
             )}
           >
             <img
-              src={network.icon}
+              src={token.logoURI}
               alt="img"
               className={cn(
                 "rounded-full",
@@ -44,17 +47,17 @@ export function SelectList({ className, setSelectedNetwork, close }: IProps) {
               )}
             />
             <div className="flex flex-col gap-[1px] leading-[120%]">
-              {network.name}
+              {token.name}
               <div className="flex items-center gap-[5px] leading-[100%]">
                 <img
-                  src={network.icon}
+                  src={token.logoURI}
                   alt="img"
                   className={cn(
                     "min-w-[14px] sm:min-w-[20px] max-w-[14px] sm:max-w-[20px]",
                     "min-h-[14px] sm:min-h-[20px] max-h-[14px] sm:max-h-[20px]"
                   )}
                 />
-                {network.network}
+                {token.chainId}
               </div>
             </div>
           </div>

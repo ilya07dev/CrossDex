@@ -12,23 +12,26 @@ import { INetwork } from "mook/types";
 import { images } from "assets/img";
 
 import cn from "classnames";
+import { useNetwork } from "wagmi";
 
 interface IProps {
   className?: string;
-  getSelectedNetwork: INetwork | null;
 }
 
-export function Amount({ className, getSelectedNetwork }: IProps) {
+export function Amount({ className }: IProps) {
+  const {chain} = useNetwork();
   const { close, toggle, dropdownRef, isOpen } = useDropdown();
   const [selectedNetwork, setSelectedNetwork] = useState<INetwork>(
     networksMook[0]
   );
+  
+
   return (
     <article
       className={cn(
         "w-full flex items-center justify-between relative",
         "bg-c-secondary rounded-[20px] px-3.5 2xl:px-7 3xl:px-[55px]  3xl:py-[47.5px]",
-        getSelectedNetwork ? "py-[16px]" : "py-6",
+        chain ? "py-[16px]" : "py-6",
         className
       )}
     >
@@ -37,7 +40,7 @@ export function Amount({ className, getSelectedNetwork }: IProps) {
           "cursor-pointer group hover:bg-c-primary duration-500",
           "w-[45px] sm:w-[60px] h-[45px] sm:h-[60px] flex items-center justify-center",
           "absolute left-1/2 -translate-x-1/2 bg-[#FFF379] rounded-[10px] sm:rounded-[20px]",
-          getSelectedNetwork
+          chain
             ? "-bottom-[20px] sm:-bottom-[30px] 3xl:-bottom-[40px]"
             : "-bottom-[30px] sm:-bottom-[38px] 3xl:-bottom-[40px]"
         )}
@@ -79,7 +82,7 @@ export function Amount({ className, getSelectedNetwork }: IProps) {
           {selectedNetwork.name}
           <ModalArr />
         </button>
-        {getSelectedNetwork && (
+        {chain && (
           <span
             className={cn(
               "mt-[7.8px] flex items-center justify-center gap-[3px]",
@@ -90,7 +93,7 @@ export function Amount({ className, getSelectedNetwork }: IProps) {
           </span>
         )}
         <TokenModal
-          setSelectedNetwork={setSelectedNetwork}
+          // setSelectedNetwork={setSelectedNetwork}
           isOpen={isOpen}
           close={close}
           className=""

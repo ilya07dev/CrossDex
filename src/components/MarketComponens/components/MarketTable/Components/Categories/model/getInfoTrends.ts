@@ -24,7 +24,7 @@ export const useGetInfoTrends = () => {
                 const result = {
                     name:infoToken.baseTokenSymbol,
                     logo:convertLinkImg(infoToken.baseToken),
-                    changeToken: infoToken.priceUsd + (infoToken.priceChange24h / 100),
+                    changeToken:infoToken.priceUsd * infoToken.priceChange24h / 100,
                     changePercent:+infoToken.priceChange24h,
                     address:infoToken.address,
                 }

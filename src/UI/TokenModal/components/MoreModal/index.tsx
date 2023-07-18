@@ -11,14 +11,12 @@ import cn from "classnames";
 interface IProps {
   setActive: (el: TypeModal) => void;
   close: () => void;
-  setSelectedNetwork: (el: INetwork) => void;
   isOpen: boolean;
 }
 
 export function MoreModal({
   setActive,
   close,
-  setSelectedNetwork,
   isOpen,
 }: IProps) {
   return (
@@ -76,7 +74,7 @@ export function MoreModal({
                 "text-base text-[#9B9898] hover:text-white font-medium duration-500"
               )}
               onClick={() => {
-                setSelectedNetwork(el);
+                // setSelectedNetwork(el);
                 // setActive("main");
                 close();
               }}

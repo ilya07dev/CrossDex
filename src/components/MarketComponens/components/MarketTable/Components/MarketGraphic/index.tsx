@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { ColorType, createChart } from "lightweight-charts";
 import axios from "axios";
 import { tradingTokensUrl } from "query/apiUrl";
-import { useNetwork } from "wagmi";
 import { graphic } from "query/useGetMarket";
+import { useStore } from "effector-react";
+import { $choseChain } from "config/stateChain";
 
 interface MarketGraphicProps {
   index: number,
@@ -12,12 +13,12 @@ interface MarketGraphicProps {
 }
 
 export function MarketGraphic({ index, address }: MarketGraphicProps) {
-  const {chain} = useNetwork();
+  const chain = useStore($choseChain);
 
   useEffect(() => {
     async function setGraphic() {
 
-      const getTradings = await axios(tradingTokensUrl(address, chain?.id ?? 1, "D7"));
+      const getTradings = await axios(tradingTokensUrl(address, chain, "D7"));
       const graphicTradings:graphic[] = getTradings.data;
 
       const chartDiv = document.getElementById(`graphic-detail-${index}`);

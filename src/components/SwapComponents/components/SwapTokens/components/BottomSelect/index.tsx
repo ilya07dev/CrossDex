@@ -6,25 +6,24 @@ import { ModalArr } from "components/Icons";
 
 import { useDropdown } from "hooks";
 
-import { INetwork } from "mook/types";
-
 import { images } from "assets/img";
 
 import cn from "classnames";
+import { useNetwork } from "wagmi";
 
 interface IProps {
   className?: string;
-  selectedNetwork: INetwork | null;
-  setSelectedNetwork: (el: INetwork | null) => void;
 }
 
 export function BottomSelect({
   className,
-  selectedNetwork,
-  setSelectedNetwork,
+  
 }: IProps) {
   const { close, toggle, dropdownRef, isOpen } = useDropdown();
   const [value, setValue] = useState("");
+
+  const {chain} = useNetwork();
+  
   return (
     <>
       <BlackBlur open={isOpen} />
@@ -33,13 +32,13 @@ export function BottomSelect({
         className={cn(
           "w-full flex",
           "bg-c-secondary rounded-[20px] ",
-          selectedNetwork
+          chain
             ? "flex-col justify-between pl-[21px] pr-[24px] py-[15.9px] 3xl:py-[25px]"
             : "items-center justify-center py-[40px] 3xl:py-[60px]",
           className
         )}
       >
-        {selectedNetwork ? (
+        {chain ? (
           <>
             <div className="w-full flex justify-between items-start">
               <input
@@ -61,7 +60,7 @@ export function BottomSelect({
                   <div className="w-8 h-8 3xl:w-10 3xl:h-10 relative rounded-full">
                     <img
                       className="w-5 h-5 absolute -top-[5px] -right-[5px] z-[1]"
-                      src={selectedNetwork.icon}
+                      // src={chain.icon}
                       alt="img"
                     />
                     <img
@@ -70,11 +69,11 @@ export function BottomSelect({
                       alt=""
                     />
                   </div>
-                  {selectedNetwork.name}
+                  {chain.nativeCurrency.name}
                   <ModalArr />
                 </button>
                 <TokenModal
-                  setSelectedNetwork={setSelectedNetwork}
+                  // setSelectedNetwork={setSelectedNetwork}
                   isOpen={isOpen}
                   close={close}
                   className=""
@@ -88,9 +87,9 @@ export function BottomSelect({
                 "bg-c-primary rounded-[15px]"
               )}
             >
-              <img className="w-5 h-5" src={selectedNetwork.icon} alt="" />1{" "}
+              <img className="w-5 h-5" alt="" />1{" "}
               <span className="text-[#9B9898]">=</span>
-              <img className="w-5 h-5" src={selectedNetwork.icon} alt="" />
+              <img className="w-5 h-5" alt="" />
               7.647943
             </div>
           </>
@@ -108,7 +107,7 @@ export function BottomSelect({
               <ModalArr />
             </button>
             <TokenModal
-              setSelectedNetwork={setSelectedNetwork}
+              // setSelectedNetwork={setSelectedNetwork}
               isOpen={isOpen}
               close={close}
               className=""
