@@ -11,7 +11,7 @@ interface IProps {
 
 export function SelectListTokens({ className, close }: IProps) {
   const tokens = useGetTokensBridge();
-  console.log(tokens)
+  console.log(tokens);
 
   return (
     <div
@@ -25,7 +25,7 @@ export function SelectListTokens({ className, close }: IProps) {
       {tokens.map((token: tokensBridge) => (
         <div
           className="flex items-center justify-between cursor-pointer"
-          key={token.address+token.chainId}
+          key={token.address + token.chainId}
         >
           <div
             onClick={() => {
@@ -53,7 +53,7 @@ export function SelectListTokens({ className, close }: IProps) {
                   src={token.logoURI}
                   alt="img"
                   className={cn(
-                    "min-w-[14px] sm:min-w-[20px] max-w-[14px] sm:max-w-[20px]",
+                    "min-w-[14px] sm:min-w-[20px] max-w-[14px] sm:max-w-[20px] rounded-full",
                     "min-h-[14px] sm:min-h-[20px] max-h-[14px] sm:max-h-[20px]"
                   )}
                 />
