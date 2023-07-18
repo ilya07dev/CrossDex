@@ -22,8 +22,8 @@ export function Pagination({
       breakLabel={"..."}
       breakClassName={"break-me"}
       pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={1}
       onPageChange={handlePageChange}
       containerClassName={"pagination"}
       activeClassName={cn(

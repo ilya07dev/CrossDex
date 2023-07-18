@@ -1,7 +1,4 @@
-
-
 import ReactPaginate from "react-paginate";
-
 
 import { MarketTable } from "./components/MarketTable";
 
@@ -11,11 +8,11 @@ import { usePagination } from "hooks/usePagination";
 import { useGetMarket } from "query/useGetMarket";
 
 export function MarketComponents({ className }: { className?: string }) {
-  const {items, pageCount, handlePageChange} = usePagination(useGetMarket);
+  const { items, pageCount, handlePageChange } = usePagination(useGetMarket);
 
   return (
     <div className={cn(className, "")}>
-     <Categories />
+      <Categories />
       <div className="w-full overflow-x-scroll sm:overflow-x-auto">
         <MarketTable currentTokens={items} className="mt-10" />
       </div>
@@ -31,8 +28,8 @@ export function MarketComponents({ className }: { className?: string }) {
         breakLabel={"..."}
         breakClassName={"break-me"}
         pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
+        marginPagesDisplayed={1}
+        pageRangeDisplayed={1}
         onPageChange={handlePageChange}
         containerClassName={"pagination"}
         activeClassName={cn(
