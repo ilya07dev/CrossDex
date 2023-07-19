@@ -1,3 +1,8 @@
-import { fatoryChoiseTokenSwap } from "../../../choseTokenFactory";
+import { fatoryChoiseTokenSwap } from "../../../model";
 
-export const {$choiseTokenSwap:$choiseTokenSwap1, changeToken:changeToken1} = fatoryChoiseTokenSwap()
+export const {
+    $choiseTokenSwap:$choiseTokenSwap1, 
+    $choiseNetworkSwap:$choiseNetwork1,
+    changeToken:changeToken1,
+    changeNetwork:changeNetwork1,
+} = fatoryChoiseTokenSwap()

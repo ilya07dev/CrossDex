@@ -2,7 +2,6 @@ import { CloseIcon } from "components/Icons";
 import { SelectListTokens } from "./components/SelectList";
 
 import { networksMook } from "mook";
-import { INetwork } from "mook/types";
 
 import { useMediaQuery } from "hooks";
 
@@ -10,23 +9,30 @@ import { TypeModal } from "../../types";
 
 import cn from "classnames";
 import { useSwitchNetwork } from "wagmi";
+import { NetworksI, chainsActive } from "./config/chains";
+
+import {Event} from 'effector';
+import { choiseTokenI } from "components/SwapComponents/components/SwapTokens/model";
+import { tokensBridge } from "query/useGetTokensBridge";
 
 interface IProps {
   className?: string;
   isOpen?: boolean;
   close?: () => void;
   setActive: (el: TypeModal) => void;
+  setSelectedNetwork:Event<NetworksI>,
+  setSelectedToken:Event<tokensBridge | null>,
 }
 
 export function MainModal({
   isOpen,
   close,
   setActive,
+  setSelectedNetwork,
+  setSelectedToken
 }: IProps) {
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const count = isMobile ? 4 : 7;
-  const selectedTokens: INetwork[] = networksMook.slice(0, count);
-  const {switchNetworkAsync} = useSwitchNetwork();
+  // const {switchNetworkAsync} = useSwitchNetwork();
 
   return (
     <article
@@ -76,29 +82,30 @@ export function MainModal({
         >
           All
         </span>
-        {selectedTokens.map((el: INetwork, i: number) => (
-          <div
-            key={i}
-            className={cn(
-              "flex items-center justify-center cursor-pointer",
-              "p-[10px] rounded-[10px] sm:rounded-[20px] bg-c-secondary"
-            )}
-            onClick={() => {
-              // switchNetworkAsync(el.network)
-              close && close();
-            }}
-          >
-            <img
-              src={el.icon}
-              alt="img"
+        {chainsActive.map((el: NetworksI) => {
+          return (
+            <div
+              key={el.symbol}
               className={cn(
-                "rounded-full",
-                "min-w-[24px] sm:min-w-[40px] max-w-[24px] sm:max-w-[40px]",
-                "min-h-[24px] sm:min-h-[40px] max-h-[24px] sm:max-h-[40px]"
+                "flex items-center justify-center cursor-pointer",
+                "p-[10px] rounded-[10px] sm:rounded-[20px] bg-c-secondary"
               )}
-            />
-          </div>
-        ))}
+              onClick={() => {
+                close && close();
+                setSelectedNetwork(el)
+              } }
+            >
+              <img
+                src={el.icon}
+                alt="img"
+                className={cn(
+                  "rounded-full",
+                  "min-w-[24px] sm:min-w-[40px] max-w-[24px] sm:max-w-[40px]",
+                  "min-h-[24px] sm:min-h-[40px] max-h-[24px] sm:max-h-[40px]"
+                )} />
+            </div>
+          );
+        })}
         <span
           onClick={() => {
             setActive("more");
@@ -121,6 +128,7 @@ export function MainModal({
         Select token
       </h4>
       <SelectListTokens
+        setSelectedToken={setSelectedToken}
         close={close!}
         className="mt-[10px]"
       />

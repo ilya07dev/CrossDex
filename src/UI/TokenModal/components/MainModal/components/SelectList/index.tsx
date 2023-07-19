@@ -3,15 +3,19 @@ import { INetwork } from "mook/types";
 
 import cn from "classnames";
 import { tokensBridge, useGetTokensBridge } from "query/useGetTokensBridge";
+import { choiseTokenI } from "components/SwapComponents/components/SwapTokens/model";
+
+import {Event} from 'effector';
+import { chainsActive, chainsActiveId } from "../../config/chains";
 
 interface IProps {
   className?: string;
   close: () => void;
+  setSelectedToken:Event<tokensBridge | null>,
 }
 
-export function SelectListTokens({ className, close }: IProps) {
+export function SelectListTokens({ className, close, setSelectedToken }: IProps) {
   const tokens = useGetTokensBridge();
-  console.log(tokens)
 
   return (
     <div
@@ -22,14 +26,16 @@ export function SelectListTokens({ className, close }: IProps) {
         className
       )}
     >
-      {tokens.map((token: tokensBridge) => (
+      {tokens
+      .slice(0, 30)
+      .map((token: tokensBridge) => (
         <div
           className="flex items-center justify-between cursor-pointer"
           key={token.address+token.chainId}
         >
           <div
             onClick={() => {
-              // setSelectedNetwork(network);
+              setSelectedToken(token);
               close();
             }}
             className={cn(
@@ -50,7 +56,7 @@ export function SelectListTokens({ className, close }: IProps) {
               {token.name}
               <div className="flex items-center gap-[5px] leading-[100%]">
                 <img
-                  src={token.logoURI}
+                  src={chainsActiveId[token.chainId]?.icon }
                   alt="img"
                   className={cn(
                     "min-w-[14px] sm:min-w-[20px] max-w-[14px] sm:max-w-[20px]",

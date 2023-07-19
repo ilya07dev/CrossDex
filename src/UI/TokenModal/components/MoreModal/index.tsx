@@ -7,11 +7,14 @@ import { INetwork } from "mook/types";
 import { TypeModal } from "../../types";
 
 import cn from "classnames";
+import {Event} from 'effector';
+import { NetworksI } from "../MainModal/config/chains";
 
 interface IProps {
   setActive: (el: TypeModal) => void;
   close: () => void;
   isOpen: boolean;
+  setSelectedNetwork:Event<NetworksI>
 }
 
 export function MoreModal({

@@ -528,11 +528,6 @@ export const networksMook: INetwork[] = [
     network: "on Polygon",
     icon: images.polygon,
   },
-  // {
-  //   name: "MATIC",
-  //   network: "on Polygon",
-  //   icon: NetIcon,
-  // },
   {
     name: "MATIC",
     network: "on Polygon",
