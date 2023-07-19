@@ -9,7 +9,7 @@ import { useMediaQuery } from "hooks";
 import { TypeModal } from "../../types";
 
 import cn from "classnames";
-import { useSwitchNetwork } from "wagmi";
+// import { useSwitchNetwork } from "wagmi";
 
 interface IProps {
   className?: string;
@@ -18,15 +18,11 @@ interface IProps {
   setActive: (el: TypeModal) => void;
 }
 
-export function MainModal({
-  isOpen,
-  close,
-  setActive,
-}: IProps) {
+export function MainModal({ isOpen, close, setActive }: IProps) {
   const isMobile = useMediaQuery("(max-width: 640px)");
   const count = isMobile ? 4 : 7;
   const selectedTokens: INetwork[] = networksMook.slice(0, count);
-  const {switchNetworkAsync} = useSwitchNetwork();
+  // const {switchNetworkAsync} = useSwitchNetwork();
 
   return (
     <article
@@ -120,10 +116,7 @@ export function MainModal({
       >
         Select token
       </h4>
-      <SelectListTokens
-        close={close!}
-        className="mt-[10px]"
-      />
+      <SelectListTokens close={close!} className="mt-[10px]" />
     </article>
   );
 }

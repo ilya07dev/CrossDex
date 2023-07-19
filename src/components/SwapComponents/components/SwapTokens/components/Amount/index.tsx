@@ -19,13 +19,13 @@ interface IProps {
 }
 
 export function Amount({ className }: IProps) {
-  const {chain} = useNetwork();
+  const { chain } = useNetwork();
   const { close, toggle, dropdownRef, isOpen } = useDropdown();
   const [selectedNetwork, setSelectedNetwork] = useState<INetwork>(
     networksMook[0]
   );
-  
 
+  console.log(setSelectedNetwork);
   return (
     <article
       className={cn(

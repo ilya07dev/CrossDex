@@ -54,10 +54,14 @@
   border-radius: 30px;
 }
 
-.custom_scroll::-ms-scrollbar-thumb {
-  border-radius: 30px;
+.custom_scroll:-ms-overflow-style {
+  scrollbar-track-color: transparent;
+  scrollbar-width: 10px;
+  scrollbar-arrow-color: transparent;
 }
-
+.custom_scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 .animated-button {
   position: relative;
   overflow: hidden;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNetwork } from "wagmi";
+// import { useNetwork } from "wagmi";
 import { mockTokenImage } from "mook/linkImg";
 import { allTokensUrl, txUserUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
@@ -8,8 +8,8 @@ import { ethers } from "ethers";
 import { formatDate } from "./lib";
 import { tokens1Inch } from "query/apiUrl/tokens";
 import { extraShortenAddress } from "utils/extraShortenAddress";
-import { useAccount } from "wagmi";
-import { convertToCorrectChains } from "utils/convertCorrectChains";
+// import { useAccount } from "wagmi";
+// import { convertToCorrectChains } from "utils/convertCorrectChains";
 
 const abiApprove = [
   {
@@ -58,9 +58,9 @@ export const useGetApprovals = (): ApprovalsTx[] => {
     }
   );
 
-  const { address } = useAccount();
-  const { chain } = useNetwork();
-  const chainCurrent = convertToCorrectChains(chain?.id);
+  // const { address } = useAccount();
+  // const { chain } = useNetwork();
+  // const chainCurrent = convertToCorrectChains(chain?.id);
   // const {data } = useQuery(
   //     'marketTokens',
   //     () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
