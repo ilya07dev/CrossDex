@@ -65,7 +65,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
             return {
                 name:shortName(pool.token.name),
                 symbol:pool.token.symbol,
-                logo:(pool.token.reprPair.id.token),
+                logo:convertLinkImg(pool.token.reprPair.id.token),
                 price:(pool.price),
                 price24h:pool.price24h,
                 holders:(pool.token.metrics.holders),

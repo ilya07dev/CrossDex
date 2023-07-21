@@ -8,7 +8,6 @@ import { useRevoke } from "./model";
 import { useNetwork } from "wagmi";
 import { getScannerLink } from "utils/getScannerLink";
 import { NotData } from "UI/NotData";
-import { Link } from "react-router-dom";
 
 interface IProps {
   className?: string;

@@ -3,25 +3,26 @@ import { SelectListTokens } from "./components/SelectList";
 
 import { networksMook } from "mook";
 
-import { useMediaQuery } from "hooks";
-
 import { TypeModal } from "../../types";
 
 import cn from "classnames";
-import { useSwitchNetwork } from "wagmi";
 import { NetworksI, chainsActive } from "./config/chains";
 
 import {Event} from 'effector';
-import { choiseTokenI } from "components/SwapComponents/components/SwapTokens/model";
-import { tokensBridge } from "query/useGetTokensBridge";
+
+import { networkSwapType, tokenSwapType } from "components/SwapComponents/components/SwapTokens/model";
+import { isSwap } from "query/useGetTokensBridge";
 
 interface IProps {
   className?: string;
   isOpen?: boolean;
   close?: () => void;
   setActive: (el: TypeModal) => void;
-  setSelectedNetwork:Event<NetworksI>,
-  setSelectedToken:Event<tokensBridge | null>,
+  setSelectedNetwork:Event<networkSwapType>,
+  setSelectedToken:Event<tokenSwapType>,
+  setSelectedNetworkFilter:Event<networkSwapType>,
+  searchTokens:Event<string>,
+  isSwap:isSwap
 }
 
 export function MainModal({
@@ -29,11 +30,11 @@ export function MainModal({
   close,
   setActive,
   setSelectedNetwork,
-  setSelectedToken
+  setSelectedNetworkFilter,
+  setSelectedToken,
+  isSwap,
+  searchTokens,
 }: IProps) {
-  const isMobile = useMediaQuery("(max-width: 640px)");
-  // const {switchNetworkAsync} = useSwitchNetwork();
-
   return (
     <article
       className={cn(
@@ -55,7 +56,9 @@ export function MainModal({
           className="text-[#9B9898] hover:text-white duration-500 cursor-pointer"
         />
       </div>
+
       <input
+        onChange={(e) => searchTokens(e.target.value)}
         placeholder="Search"
         type="text"
         className={cn(
@@ -64,6 +67,7 @@ export function MainModal({
           "text-base sm:text-lg font-medium text-white placeholder:text-[#9B9898]"
         )}
       />
+
       <h4
         className={cn(
           "text-[#9B9898] text-xl font-medium",
@@ -77,8 +81,9 @@ export function MainModal({
           className={cn(
             "flex items-center justify-center h-11 sm:h-[60px]",
             "px-[10px] sm:px-[18.5px] rounded-[10px] sm:rounded-[20px] bg-c-secondary",
-            "text-[#9B9898] text-base sm:text-xl font-medium"
+            "text-[#9B9898] text-base sm:text-xl font-medium cursor-pointer"
           )}
+          onClick={() => setSelectedNetworkFilter(null)}
         >
           All
         </span>
@@ -90,10 +95,7 @@ export function MainModal({
                 "flex items-center justify-center cursor-pointer",
                 "p-[10px] rounded-[10px] sm:rounded-[20px] bg-c-secondary"
               )}
-              onClick={() => {
-                close && close();
-                setSelectedNetwork(el)
-              } }
+              onClick={() => setSelectedNetworkFilter(el)}
             >
               <img
                 src={el.icon}
@@ -128,7 +130,9 @@ export function MainModal({
         Select token
       </h4>
       <SelectListTokens
+        isSwap={isSwap}
         setSelectedToken={setSelectedToken}
+        setSelectedNetwork={setSelectedNetwork}
         close={close!}
         className="mt-[10px]"
       />

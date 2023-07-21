@@ -4,31 +4,43 @@ import { MainModal } from "./components/MainModal";
 import { MoreModal } from "./components/MoreModal";
 
 import { TypeModal } from "./types";
-import { NetworksI } from "./components/MainModal/config/chains";
 import {Event} from 'effector';
-import { choiseTokenI } from "components/SwapComponents/components/SwapTokens/model";
-import { tokensBridge } from "query/useGetTokensBridge";
+import { networkSwapType, tokenSwapType } from "components/SwapComponents/components/SwapTokens/model";
+import { isSwap } from "query/useGetTokensBridge";
 
 interface IProps {
   className?: string;
   isOpen: boolean;
   close: () => void;
-  setSelectedNetwork:Event<NetworksI>,
-  setSelectedToken:Event<tokensBridge | null>,
-  
+  setSelectedNetwork:Event<networkSwapType>,
+  setSelectedNetworkFilter:Event<networkSwapType>,
+  setSelectedToken:Event<tokenSwapType>,
+  searchTokens:Event<string>,
+  isSwap:isSwap
 }
 
-export function TokenModal({ isOpen, close, setSelectedNetwork, setSelectedToken }: IProps) {
+export function TokenModal({ 
+  isOpen, 
+  close, 
+  setSelectedNetwork, 
+  setSelectedNetworkFilter,
+  setSelectedToken,
+  isSwap,
+  searchTokens
+}: IProps) {
   const [active, setActive] = useState<TypeModal>("main");
 
   switch (active) {
     case "main":
       return (
         <MainModal
+          searchTokens={searchTokens}
+          isSwap={isSwap}
+          setSelectedNetworkFilter={setSelectedNetworkFilter}
           setSelectedToken={setSelectedToken}
+          setSelectedNetwork={setSelectedNetwork}
           isOpen={isOpen}
           close={close}
-          setSelectedNetwork={setSelectedNetwork}
           setActive={setActive}
         />
       );

@@ -8,13 +8,13 @@ import { TypeModal } from "../../types";
 
 import cn from "classnames";
 import {Event} from 'effector';
-import { NetworksI } from "../MainModal/config/chains";
+import { networkSwapType } from "components/SwapComponents/components/SwapTokens/model";
 
 interface IProps {
   setActive: (el: TypeModal) => void;
   close: () => void;
   isOpen: boolean;
-  setSelectedNetwork:Event<NetworksI>
+  setSelectedNetwork:Event<networkSwapType>
 }
 
 export function MoreModal({

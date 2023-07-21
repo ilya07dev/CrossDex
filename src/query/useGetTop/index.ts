@@ -31,7 +31,6 @@ export const useGetTops = (
 
     responseTops?.forEach((token:looserToken, index:number) => {
         if(index > 2) return null
-        console.log((token.priceDiff / 100), )
         
         tokensTop.push({
             name:token.token.symbol,

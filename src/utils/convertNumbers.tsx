@@ -4,8 +4,6 @@ export const convertNumbers = (
   value:string | number,
 ):JSX.Element => {
 
-  // console.log(value.toString().length)
-
   value = (+value).toFixed(30);
   const index = value.indexOf(".");
   const indexNumb = value.split("").findIndex((symbol) => +symbol !== 0 && !Number.isNaN(+symbol));

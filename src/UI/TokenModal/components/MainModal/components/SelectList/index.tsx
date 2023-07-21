@@ -1,21 +1,29 @@
-import { networksMook } from "mook";
-import { INetwork } from "mook/types";
+
 
 import cn from "classnames";
-import { tokensBridge, useGetTokensBridge } from "query/useGetTokensBridge";
-import { choiseTokenI } from "components/SwapComponents/components/SwapTokens/model";
+import { isSwap, tokensBridge, useGetTokensBridge } from "query/useGetTokensBridge";
 
 import {Event} from 'effector';
-import { chainsActive, chainsActiveId } from "../../config/chains";
+import { chainsActiveId } from "../../config/chains";
+import { networkSwapType, tokenSwapType } from "components/SwapComponents/components/SwapTokens/model";
+import { convertNumbers } from "utils";
 
 interface IProps {
   className?: string;
   close: () => void;
-  setSelectedToken:Event<tokensBridge | null>,
+  setSelectedToken:Event<tokenSwapType>,
+  setSelectedNetwork:Event<networkSwapType>,
+  isSwap:isSwap,
 }
 
-export function SelectListTokens({ className, close, setSelectedToken }: IProps) {
-  const tokens = useGetTokensBridge();
+export function SelectListTokens({ 
+  className, 
+  close, 
+  setSelectedToken, 
+  setSelectedNetwork,
+  isSwap
+}: IProps) {
+  const data = useGetTokensBridge(isSwap);
 
   return (
     <div
@@ -26,8 +34,7 @@ export function SelectListTokens({ className, close, setSelectedToken }: IProps)
         className
       )}
     >
-      {tokens
-      .slice(0, 30)
+      {data?.tokens
       .map((token: tokensBridge) => (
         <div
           className="flex items-center justify-between cursor-pointer"
@@ -36,6 +43,7 @@ export function SelectListTokens({ className, close, setSelectedToken }: IProps)
           <div
             onClick={() => {
               setSelectedToken(token);
+              setSelectedNetwork(chainsActiveId[token.chainId])
               close();
             }}
             className={cn(
@@ -63,20 +71,25 @@ export function SelectListTokens({ className, close, setSelectedToken }: IProps)
                     "min-h-[14px] sm:min-h-[20px] max-h-[14px] sm:max-h-[20px]"
                   )}
                 />
-                {token.chainId}
+
+                on {chainsActiveId[token.chainId].name.toLowerCase()}
               </div>
             </div>
           </div>
-          <input
-            placeholder="0"
+          <p
             className={cn(
               "w-1/3 sm:w-auto px-[10px] bg-transparent",
               "text-right text-white text-xl font-medium placeholder:text-white"
             )}
-            type="text"
-          />
+          >
+            {convertNumbers(token.balance)}
+          </p>
         </div>
       ))}
+      <div 
+        className="min-h-[1px]"
+        ref={data?.lastToken}
+      />
     </div>
   );
 }

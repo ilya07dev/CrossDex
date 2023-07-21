@@ -38,34 +38,34 @@ const abiApprove = [{
 const inter = new ethers.utils.Interface(abiApprove);
 
 export const useGetApprovals = ():ApprovalsTx[] => {
-    const {data } = useQuery(
-        'marketTokens',
-        () => axios.get(txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 1)), {
-            refetchOnWindowFocus: false,
-        }
-    );
-    const {data:allTokens } = useQuery(
-        'allTokens',
-        () => axios.get(allTokensUrl(1)),{
-            refetchOnWindowFocus: false,
-        }
-    );
-
-    const {address} = useAccount();
-    const {chain} = useNetwork()
-    const chainCurrent = convertToCorrectChains(chain?.id);
     // const {data } = useQuery(
     //     'marketTokens',
-    //     () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
+    //     () => axios.get(txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 1)), {
     //         refetchOnWindowFocus: false,
     //     }
     // );
     // const {data:allTokens } = useQuery(
     //     'allTokens',
-    //     () => axios.get(allTokensUrl(chainCurrent)),{
+    //     () => axios.get(allTokensUrl(1)),{
     //         refetchOnWindowFocus: false,
     //     }
     // );
+
+    const {address} = useAccount();
+    const {chain} = useNetwork()
+    const chainCurrent = convertToCorrectChains(chain?.id);
+    const {data } = useQuery(
+        'marketTokens',
+        () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
+            refetchOnWindowFocus: false,
+        }
+    );
+    const {data:allTokens } = useQuery(
+        'allTokens',
+        () => axios.get(allTokensUrl(chainCurrent)),{
+            refetchOnWindowFocus: false,
+        }
+    );
     
     if(!data?.data || typeof data?.data?.result === 'string') return [];
 

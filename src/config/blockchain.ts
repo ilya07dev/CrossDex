@@ -6,6 +6,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { polygon, bsc, mainnet } from "@wagmi/chains";
 
 import { RPC_NETWORK } from "./variables";
+import { Via } from "@viaprotocol/router-sdk";
 
 export const chainsActive = [mainnet, bsc, polygon];
 
@@ -35,3 +36,6 @@ export const wagmiClient = createClient({
   provider,
   webSocketProvider,
 });
+
+export const DEFAULT_API_KEY = 'e3db93a3-ae1c-41e5-8229-b8c1ecef5583';
+export const cli = new Via({apiKey: DEFAULT_API_KEY, url: 'https://router-api.via.exchange', timeout: 30000});

@@ -1,4 +1,4 @@
-import { NetworksI, chainsActive } from "UI/TokenModal/components/MainModal/config/chains";
+import { NetworksI } from "UI/TokenModal/components/MainModal/config/chains";
 import { createEvent, createStore } from "effector"
 import { tokensBridge } from "query/useGetTokensBridge";
 
@@ -13,12 +13,17 @@ export interface choiseTokenI {
     decimals:number,
 }
 
-export const fatoryChoiseTokenSwap = () => {
-    const $choiseTokenSwap = createStore<tokensBridge | null>(null);
-    const $choiseNetworkSwap = createStore<NetworksI>(chainsActive[0]);
+export type networkSwapType = NetworksI | null;
+export type tokenSwapType = tokensBridge | null;
 
-    const changeToken = createEvent<tokensBridge | null>();
-    const changeNetwork = createEvent<NetworksI>();
+export const fatoryChoiseTokenSwap = () => {
+    const $choiseTokenSwap = createStore<tokenSwapType>(null);
+    const $choiseNetworkSwap = createStore<networkSwapType>(null);
+    const $choiseNetworkFilter = createStore<networkSwapType>(null);
+
+    const changeToken = createEvent<tokenSwapType>();
+    const changeNetwork = createEvent<networkSwapType>();
+    const changeNetworkFilter = createEvent<networkSwapType>();
 
     $choiseTokenSwap
         .on(changeToken, (_, token) => token);
@@ -26,11 +31,17 @@ export const fatoryChoiseTokenSwap = () => {
     $choiseNetworkSwap
         .on(changeNetwork, (_, network) => network);
 
+    $choiseNetworkFilter
+        .on(changeNetworkFilter, (_, network) => network);
+
     return {
         $choiseTokenSwap,
         changeToken,
         
         $choiseNetworkSwap,
-        changeNetwork
+        changeNetwork,
+
+        $choiseNetworkFilter,
+        changeNetworkFilter
     }
 }
