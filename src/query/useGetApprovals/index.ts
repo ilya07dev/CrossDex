@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 import { mockTokenImage } from "mook/linkImg";
 import { allTokensUrl, txUserUrl } from "query/apiUrl";
 import { useQuery } from "react-query";
@@ -8,8 +8,8 @@ import { ethers } from "ethers";
 import { formatDate } from "./lib";
 import { tokens1Inch } from "query/apiUrl/tokens";
 import { extraShortenAddress } from "utils/extraShortenAddress";
-// import { useAccount } from "wagmi";
-// import { convertToCorrectChains } from "utils/convertCorrectChains";
+import { useAccount } from "wagmi";
+import { convertToCorrectChains } from "utils/convertCorrectChains";
 
 const abiApprove = [
   {
@@ -44,35 +44,36 @@ export const useGetApprovals = (): ApprovalsTx[] => {
     "marketTokens",
     () =>
       axios.get(
-        txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 1)
+        txUserUrl("0xc9e60656c8294b65F9617b85F55cc8EfbC43F051" ?? "", 56)
       ),
     {
       refetchOnWindowFocus: false,
     }
   );
-  const { data: allTokens } = useQuery(
-    "allTokens",
-    () => axios.get(allTokensUrl(1)),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
+  // const { data: allTokens } = useQuery(
+  //   "allTokens",
+  //   () => axios.get(allTokensUrl(1)),
+  //   {
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
 
-  // const { address } = useAccount();
-  // const { chain } = useNetwork();
-  // const chainCurrent = convertToCorrectChains(chain?.id);
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const chainCurrent = convertToCorrectChains(chain?.id);
   // const {data } = useQuery(
   //     'marketTokens',
   //     () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
   //         refetchOnWindowFocus: false,
   //     }
   // );
-  // const {data:allTokens } = useQuery(
-  //     'allTokens',
-  //     () => axios.get(allTokensUrl(chainCurrent)),{
-  //         refetchOnWindowFocus: false,
-  //     }
-  // );
+  const { data: allTokens } = useQuery(
+    "allTokens",
+    () => axios.get(allTokensUrl(chainCurrent)),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   if (!data?.data || typeof data?.data?.result === "string") return [];
 
