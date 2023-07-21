@@ -67,7 +67,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
                 symbol:pool.token.symbol,
                 logo:convertLinkImg(pool.token.reprPair.id.token),
                 price:(pool.price),
-                price24h:pool.price24h,
+                price24h:((pool.price24h - pool.price) / pool.price) * 100,
                 holders:(pool.token.metrics.holders),
                 txCount:(pool.token.metrics.txCount),
                 mcap:pool.token.metrics.mcap ? convertNumbers(pool.token.metrics.mcap) : '...',
