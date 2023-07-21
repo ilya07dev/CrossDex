@@ -1,2 +1,9 @@
+import mockToken from './mockToken.png'
 
-export const mockTokenImage = "https://static.thenounproject.com/png/3842652-200.png"
+export const mockTokenImage = mockToken;
+
+export function imgError(image:any) {
+    image.onerror = "";
+    image.src = mockToken;
+    return true;
+}

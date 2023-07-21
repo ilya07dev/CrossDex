@@ -52,16 +52,17 @@ export const useGetApprovals = ():ApprovalsTx[] => {
     // );
 
     const {address} = useAccount();
+    
     const {chain} = useNetwork()
     const chainCurrent = convertToCorrectChains(chain?.id);
     const {data } = useQuery(
-        'marketTokens',
+        'txUserApprove',
         () => axios.get(txUserUrl(address ?? "", chainCurrent)), {
             refetchOnWindowFocus: false,
         }
     );
     const {data:allTokens } = useQuery(
-        'allTokens',
+        'allTokensApprove',
         () => axios.get(allTokensUrl(chainCurrent)),{
             refetchOnWindowFocus: false,
         }

@@ -6,6 +6,7 @@ import { convertNumbers } from "utils";
 import { Link } from "react-router-dom";
 import { useStore } from "effector-react";
 import { $choseChain } from "config/stateChain";
+import { imgError, mockTokenImage } from "mook/linkImg";
 
 interface ICategorieProps {
   className?: string,
@@ -60,7 +61,8 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
                   )}
                   width={40}
                   height={40}
-                  src={token.logo}
+                  src={token.logo ?? mockTokenImage}
+                  onError={imgError}
                 />
                 {token.name}
               </div>
