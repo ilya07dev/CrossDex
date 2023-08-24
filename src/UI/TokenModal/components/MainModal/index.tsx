@@ -1,8 +1,5 @@
 import { CloseIcon } from "components/Icons";
 import { SelectListTokens } from "./components/SelectList";
-
-import { networksMook } from "mook";
-
 import { TypeModal } from "../../types";
 
 import cn from "classnames";
@@ -28,7 +25,6 @@ interface IProps {
 export function MainModal({
   isOpen,
   close,
-  setActive,
   setSelectedNetwork,
   setSelectedNetworkFilter,
   setSelectedToken,
@@ -108,7 +104,7 @@ export function MainModal({
             </div>
           );
         })}
-        <span
+        {/* <span
           onClick={() => {
             setActive("more");
           }}
@@ -119,7 +115,7 @@ export function MainModal({
           )}
         >
           {networksMook.length} More
-        </span>
+        </span> */}
       </div>
       <h4
         className={cn(

@@ -1,9 +1,9 @@
-import mockToken from './mockToken.png'
 
-export const mockTokenImage = mockToken;
+
+export const mockTokenImage = '/logo.svg';
 
 export function imgError(image:any) {
-    image.onerror = "";
-    image.src = mockToken;
-    return true;
+    image.currentTarget.onerror = null; // prevents looping
+
+    image.currentTarget.src = '/logo.svg';
 }

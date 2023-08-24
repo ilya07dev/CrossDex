@@ -66,10 +66,9 @@ export const useSwapVia = () => {
                     {owner, routeId, numAction}
                 );
 
-                const output = firstNonEmptyPage.value.routes?.[0].toTokenAmount
-                console.log('<-----> output')
-                console.log(output)
+                const output = firstNonEmptyPage.value.routes?.[0].toTokenAmount;
 
+                console.log(+allowanceStatus.value < +output, allowanceStatus.value, output)
                 if(+allowanceStatus.value < +output && signer) {
                     setStatus("Approve! Loading...");
                     const aprroveDataTx = await cli.buildApprovalTx(
@@ -82,11 +81,14 @@ export const useSwapVia = () => {
                     try {
                         const aprroveTx = await signer.sendTransaction(aprroveDataTx);
 
-                        if(!aprroveTx.blockHash) {
-                            return setStatus("Error")
+                        console.log('<-----> aprroveTx')
+                        console.log(aprroveTx)
+                        if(!aprroveTx.hash) {
+                            return setStatus("Error! Try again!")
                         }
                     } catch (error) {
-                        return setStatus("Error")
+                        console.log(error)
+                        return setStatus("Error! Try again!")
                     }
                 }
 
@@ -105,14 +107,20 @@ export const useSwapVia = () => {
                 console.log(swapDataTx);
 
                 try{
-                    const swapTx = signer && await signer.sendTransaction(swapDataTx);
-
+                    const swapTx = signer && await signer.sendTransaction({
+                        to: swapDataTx.to,
+                        value: swapDataTx.value,
+                        data:swapDataTx.data,
+                    });
+                    
+                    console.log('<-----> swapTx')
+                    console.log(swapTx);
                     if(swapTx?.hash) {
                         setStatus("Transaction successfully sent!")
                     }
                 } catch(err) {
                     console.log(err);
-                    setStatus("Error!")
+                    setStatus("Error! Try again!")
                 }
             }
         }

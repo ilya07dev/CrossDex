@@ -6,7 +6,8 @@ import { convertNumbers } from "utils";
 import { Link } from "react-router-dom";
 import { useStore } from "effector-react";
 import { $choseChain } from "config/stateChain";
-import { imgError, mockTokenImage } from "mook/linkImg";
+import { convertLinkImg } from "utils/convertLinkimg";
+import { Loading, LoadingStatus } from "UI/Loading";
 
 interface ICategorieProps {
   className?: string,
@@ -37,8 +38,10 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
         )}
       >
 
-        {tokens.map((token) => {
+        {tokens.length > 0 ?
+          tokens.map((token, index) => {
           const isGrow:boolean = +token.changePercent >= 0;
+          if(index > 2) return null;
           return (
             <Link
               to={`/?pairAddress=${token.address}&network=${chain}`}
@@ -51,7 +54,7 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
               <div
                 className={cn(
                   "flex items-center gap-2 3xl:gap-[15px]",
-                  "h-[22px] overflow-y-hidden sm:h-auto"
+                  "h-[22px] overflow-hidden sm:h-auto"
                 )}
               >
                 <Icon
@@ -61,8 +64,7 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
                   )}
                   width={40}
                   height={40}
-                  src={token.logo ?? mockTokenImage}
-                  onError={imgError}
+                  src={convertLinkImg(token.address)}
                 />
                 {token.name}
               </div>
@@ -78,54 +80,10 @@ export function Categorie({ className,title, tokens }: ICategorieProps) {
               </span>
             </Link>
           )
-        })}
-
-        
-
-        {/* <div
-          className={cn(
-            "flex items-center gap-2 3xl:gap-[15px]",
-            "h-[22px] overflow-y-hidden sm:h-auto"
-          )}
-        >
-          <BtcIcon
-            className={cn(
-              "min-w-[22.9px] max-w-[22.9px]",
-              "sm:min-w-[50px] sm:max-w-[50px]"
-            )}
-          />
-          Bitcoin
-        </div>
-        <span className="flex items-center gap-1 justify-end">
-          <GrowIcon className="hidden sm:block" result={false} />
-          0.01035
-        </span>
-        <span className="flex items-center gap-1 justify-end">
-          <GrowIcon result={false} />
-          0.02%
-        </span>
-        <div
-          className={cn(
-            "flex items-center gap-2 3xl:gap-[15px]",
-            "h-[22px] overflow-y-hidden sm:h-auto"
-          )}
-        >
-          <BtcIcon
-            className={cn(
-              "min-w-[22.9px] max-w-[22.9px]",
-              "sm:min-w-[50px] sm:max-w-[50px]"
-            )}
-          />
-          Bitcoin
-        </div>
-        <span className="flex items-center gap-1 justify-end">
-          <GrowIcon className="hidden sm:block" result={false} />
-          0.01035
-        </span>
-        <span className="flex items-center gap-1 justify-end">
-          <GrowIcon result={false} />
-          0.02%
-        </span> */}
+        })
+        :
+        <Loading status={LoadingStatus.LOADING} />
+      }
       </div>
     </article>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { MainModal } from "./components/MainModal";
-import { MoreModal } from "./components/MoreModal";
+// import { MoreModal } from "./components/MoreModal";
 
 import { TypeModal } from "./types";
 import {Event} from 'effector';
@@ -28,30 +28,43 @@ export function TokenModal({
   isSwap,
   searchTokens
 }: IProps) {
-  const [active, setActive] = useState<TypeModal>("main");
+  const [_, setActive] = useState<TypeModal>("main");
 
-  switch (active) {
-    case "main":
-      return (
-        <MainModal
-          searchTokens={searchTokens}
-          isSwap={isSwap}
-          setSelectedNetworkFilter={setSelectedNetworkFilter}
-          setSelectedToken={setSelectedToken}
-          setSelectedNetwork={setSelectedNetwork}
-          isOpen={isOpen}
-          close={close}
-          setActive={setActive}
-        />
-      );
-    case "more":
-      return (
-        <MoreModal
-          isOpen={isOpen}
-          setSelectedNetwork={setSelectedNetwork}
-          setActive={setActive}
-          close={close}
-        />
-      );
-  }
+  return (
+    <MainModal
+      searchTokens={searchTokens}
+      isSwap={isSwap}
+      setSelectedNetworkFilter={setSelectedNetworkFilter}
+      setSelectedToken={setSelectedToken}
+      setSelectedNetwork={setSelectedNetwork}
+      isOpen={isOpen}
+      close={close}
+      setActive={setActive}
+    />
+  );
+  
+  // switch (active) {
+  //   case "main":
+  //     return (
+  //       <MainModal
+  //         searchTokens={searchTokens}
+  //         isSwap={isSwap}
+  //         setSelectedNetworkFilter={setSelectedNetworkFilter}
+  //         setSelectedToken={setSelectedToken}
+  //         setSelectedNetwork={setSelectedNetwork}
+  //         isOpen={isOpen}
+  //         close={close}
+  //         setActive={setActive}
+  //       />
+  //     );
+  //   case "more":
+  //     return (
+  //       <MoreModal
+  //         isOpen={isOpen}
+  //         setSelectedNetwork={setSelectedNetwork}
+  //         setActive={setActive}
+  //         close={close}
+  //       />
+  //     );
+  // }
 }

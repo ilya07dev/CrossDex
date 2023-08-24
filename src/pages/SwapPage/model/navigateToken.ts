@@ -14,21 +14,34 @@ export const useNavigateToken = () => {
 
     useEffect(() => {
 
-        let pairAddress = query.get("pairAddress");
-        let network = query.get("network");
+        if(!trends[0]?.address) return;
         
-        if(!network || network === "undefined" || network === "null") {
-            network = "1";
-        }
-        if(!pairAddress || pairAddress === "undefined" || pairAddress === "null") {
-            // @ts-ignore
-            pairAddress = trends[0]?.address;
-        }  
+        let pairAddressQuery = query.get("pairAddress");
+        let network = query.get("network");
+
+        // if(pairAddress !== "undefined" && pairAddress !== null ) {
+        //     console.log(pairAddress)
+        //     return;
+        // }
+        
+        
+        
+        // if(!network || network === "undefined" || network === "null") {
+        //     network = "1";
+        // }
+
+        // if(!pairAddress || pairAddress === "undefined" || pairAddress === "null" || pairAddress === null) {
+        //     // @ts-ignore
+        //     pairAddress = trends[0]?.address;
+        // }  
+
+        const pairAddress = pairAddressQuery?.toString()?.replace("undefined", trends[0]?.address) as string;
+        console.log(trends[0]?.address)
 
         changeToken({
             pairAddress,
         })
 
-        return navigate(`/?pairAddress=${pairAddress}&network=${network}`);
+        return navigate(`/?pairAddress=${pairAddress}&network=${network?.replace("undefined", "1")}`);
     }, [query,navigate,chain, trends])
 }

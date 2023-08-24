@@ -90,13 +90,17 @@ export const useGetTokensBridge = (
       )
       .slice(0, page*10+10)
       .map((token:tokensBridge) => {
+
         const tokenBalance = tokensBalancesBridge?.data.balances[token.chainId]
-          .find((tokenBalance:{address:string}) => token.address === tokenBalance.address);
+          ?.find((tokenBalance:{address:string}) => token.address === tokenBalance.address);
+
+          
         return ({
           ...token,
           balance:utils.formatUnits(tokenBalance?.balance ?? 0, tokenBalance?.decimals ?? 0)
         })
       })
+      .sort((tokenPrev:tokensBridge, tokenCurrent:tokensBridge ) => +tokenCurrent.balance - +tokenPrev.balance)
     
 
     

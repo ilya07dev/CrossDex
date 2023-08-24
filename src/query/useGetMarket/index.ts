@@ -9,6 +9,7 @@ import { $choseTokenMarket } from "pages/MarketPage/model";
 import { convertLinkImg } from "utils/convertLinkimg";
 import { $choseChain } from "config/stateChain";
 import { btcPriceUrl } from "query/apiUrl/getBtcPrice";
+import { tokensMook } from "mook";
 
 export const useGetMarket = ():tokenResultMarket[] => {
     const chain = useStore($choseChain);
@@ -49,7 +50,7 @@ export const useGetMarket = ():tokenResultMarket[] => {
         tokens = [{
             name:shortName(poolSearch.token0Name),
             symbol:poolSearch.token0Symbol,
-            logo:convertLinkImg(poolSearch.token0),
+            logo:convertLinkImg(poolSearch.token0) ?? tokensMook,
             price:poolSearch.priceUsd,
             price24h:poolSearch.newInformation.priceChange24h,
             holders:'...',

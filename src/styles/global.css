@@ -12,7 +12,49 @@
 .custom_scroll::-webkit-scrollbar {
   width: 10px;
 }
+
 .custom_scroll::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+}
+
+/* Firefox */
+.custom_scroll {
+  scrollbar-width: thin;
+}
+
+/* Internet Explorer and Edge (legacy) */
+.custom_scroll {
+  -ms-overflow-style: none;
+}
+
+.custom_scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Style the scrollbar thumb (draggable part) */
+.custom_scroll::-webkit-scrollbar-thumb {
+  background-color: #37383d;
+  border-radius: 30px;
+}
+
+/* For Firefox */
+/* Style the scrollbar track (background) */
+.custom_scroll {
+  scrollbar-color: transparent #37383d;
+}
+
+/* For Internet Explorer and Edge (legacy) */
+.custom_scroll {
+  scrollbar-width: thin;
+}
+
+/* Style the scrollbar thumb (draggable part) */
+.custom_scroll::-ms-scrollbar-thumb {
+  background-color: #37383d;
+  border-radius: 30px;
+}
+
+.custom_scroll::-ms-scrollbar-thumb {
   border-radius: 30px;
 }
 
@@ -42,4 +84,12 @@
 .custom-time-scale {
   color: #0000ff;
   border: 1px solid #ff0000;
+}
+
+.paginateButton a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

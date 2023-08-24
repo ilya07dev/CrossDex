@@ -10,26 +10,6 @@ import { BlackBlur } from "UI";
 
 import cn from "classnames";
 
-function Arr() {
-  return (
-    <svg
-      width="11"
-      height="20"
-      viewBox="0 0 11 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="ml-1"
-    >
-      <path
-        d="M1.7677 1L9.12119 8.35349C9.90224 9.13454 9.90223 10.4009 9.12119 11.1819L1.7677 18.5354"
-        stroke="white"
-        stroke-width="2"
-        stroke-linecap="round"
-      />
-    </svg>
-  );
-}
-
 export function SettingsModal({ className }: { className?: string }) {
   const { isOpen, close, open, dropdownRef } = useDropdown();
 
@@ -129,7 +109,6 @@ export function SettingsModal({ className }: { className?: string }) {
           >
             Dexs
             <span className="ml-auto text-[#9B9898] font-medium">All</span>
-            <Arr />
           </div>
           <div
             className={cn(
@@ -140,7 +119,6 @@ export function SettingsModal({ className }: { className?: string }) {
           >
             Bridges
             <span className="ml-auto text-[#9B9898] font-medium">All</span>
-            <Arr />
           </div>
           <div
             className={cn(
@@ -153,7 +131,6 @@ export function SettingsModal({ className }: { className?: string }) {
             <span className="ml-auto text-[#9B9898] font-medium">
               Smart sorting
             </span>
-            <Arr />
           </div>
         </div>
       </div>

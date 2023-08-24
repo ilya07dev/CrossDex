@@ -1,6 +1,6 @@
-import { SERVER } from "./base";
 
-export const allTokensUrl = (chainId:number) => `${SERVER}allTokens/${chainId}`;
+
+export const allTokensUrl = (chainId:number) => `https://api.1inch.io/v5.0/${chainId}/tokens`;
 
 export interface tokens1Inch {
     "symbol": string,

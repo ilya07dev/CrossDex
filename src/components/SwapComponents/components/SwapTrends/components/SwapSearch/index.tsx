@@ -1,12 +1,15 @@
 
 
 import cn from "classnames";
-import { useSearchTokens } from "hooks/searchTokens";
+import { SearchStatus, useSearchTokens } from "hooks/searchTokens";
 import { searchToken } from "query/useSearchToken";
 import { convertLinkImg } from "utils/convertLinkimg";
 import { changeToken } from "pages/SwapPage/model/stateChoseToken";
 import { convertNumbers } from "utils";
 import { convertChain } from "utils/convertChain";
+import { imgError } from "mook/linkImg";
+import { Loading, LoadingStatus } from "UI/Loading";
+import { chainQuery } from "config/stateChain";
 
 
 interface IProps {
@@ -14,7 +17,7 @@ interface IProps {
 }
 
 export function SwapSearch({ className }: IProps) {
-  const {inputSearch, choseToken, dropDown, tokens, onSetToken} = useSearchTokens(changeToken);
+  const {inputSearch, choseToken, dropDown, tokens, onSetToken, statusSearch} = useSearchTokens(changeToken);
   
   return (
     <div
@@ -36,6 +39,7 @@ export function SwapSearch({ className }: IProps) {
             className={cn(
               "w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] rounded-full"
             )}
+            onError={(img) => imgError(img)}
           />
           {choseToken.token?.baseTokenSymbol}
         </div>
@@ -66,6 +70,18 @@ export function SwapSearch({ className }: IProps) {
             : "scale-y-0 top-[-103px] opacity-0"
         )}
       >
+        <div
+                className="p-[30px]"
+            >
+                {statusSearch === SearchStatus.SEARCH && !(tokens.length > 0) &&
+                    <Loading status={LoadingStatus.LOADING} />
+                }
+
+                {statusSearch === SearchStatus.NOT_DATA && !(tokens.length > 0) &&
+                    <Loading status={LoadingStatus.NO_DATA} />
+                }
+        </div>
+
         {tokens
           .map((el: searchToken,) => (
             <button 
@@ -77,15 +93,19 @@ export function SwapSearch({ className }: IProps) {
                 <img 
                   src={convertLinkImg(el.baseToken)} 
                   className="w-8 h-8 aspect-square"
+                  onError={(img) => imgError(img)}
+                  style={{ background: "rgb(223, 221, 211)"}}
                 />
                 <img 
                   src={convertLinkImg(el.quoteToken)}
                   className="ml-2 w-8 h-8 aspect-square" 
+                  onError={(img) => imgError(img)}
                   style={{position: "absolute", left: "40px", background: "rgb(223, 221, 211)"}}
                 />
                 <img 
                   src={`https://chain-icons.s3.amazonaws.com/${convertChain(+el.chainId, true)}.png`}
                   className="ml-2 w-5 h-5 aspect-square" 
+                  onError={(img) => imgError(img)}
                   style={{position: "absolute", left: "60px", marginTop: "10px"}}
                 />
                 <p className="ml-4 text-xl">
@@ -94,7 +114,9 @@ export function SwapSearch({ className }: IProps) {
                 </p>
               </div>
               
-              <p className="ml-3 text-l text-gray-primary">Liquidity: {convertNumbers(el.liquidity)}</p>
+              {/* @ts-ignore */}
+              <p className="ml-3 text-l text-white">Chain: {chainQuery[el.chainId].nativeCurrency.symbo}</p>
+              <p className="ml-3 text-l text-white">Liquidity: {convertNumbers(el.liquidity)}</p>
             </button>
           ))}
       </aside>

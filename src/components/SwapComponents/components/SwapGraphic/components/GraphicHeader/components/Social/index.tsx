@@ -25,22 +25,22 @@ export function Social({ className, links }: SocialProps) {
         className
       )}
     >
-      <a className="flex items-center justify-center" href={links.webSite}>
+      <a className="flex items-center justify-center min-w-[24px]" href={links.webSite}>
         <GlobalIcon className="text-[#9B9898] hover:text-white duration-500" />
       </a>
       <a
-        className="flex items-center justify-center"
+        className="flex items-center justify-center min-w-[24px]"
         href={links.twitter}
       >
         <TwitterIcon className="text-[#9B9898] hover:text-white duration-500" />
       </a>
       <a
-        className="flex items-center justify-center"
+        className="flex items-center justify-center min-w-[24px]"
         href={links.telegram}
       >
         <DiscordIcon className="text-[#9B9898] hover:text-white duration-500" />
       </a>
-      <a className="flex items-center justify-center" href="#">
+      <a className="flex items-center justify-center min-w-[24px]" href="#">
         <MailIcon className="text-[#9B9898] hover:text-white duration-500" />
       </a>
     </article>

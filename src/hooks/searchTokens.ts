@@ -10,8 +10,15 @@ import { choseToken } from "utils/factoryChoseToken";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Event } from "effector";
 import { useStore } from "effector-react";
-import { $choseChain } from "config/stateChain";
+import { $choseChain, chainQuery, changeChain } from "config/stateChain";
 import { useNavigate } from "react-router-dom";
+
+export enum SearchStatus {
+  NOT_SEARCH = "",
+  SEARCH = "SEARCH",
+  NOT_DATA = "NOT_DATA",
+  CHOISE = "CHOISE",
+}
 
 
 export const useSearchTokens = (changeToken:Event<choseToken>) => {
@@ -23,6 +30,7 @@ export const useSearchTokens = (changeToken:Event<choseToken>) => {
   const [value, setValue] = useState<string>("");
   const [token, setToken] = useState<searchToken | undefined>(undefined);
   const [allTokens, setAllTokens] = useState<searchToken[]>([]);
+  const [statusSearch, setStatusSearch] = useState<SearchStatus>(SearchStatus.NOT_SEARCH);
   const valueDebounce = useDebounce(value, 500);
   const navigate = useNavigate();
 
@@ -33,17 +41,33 @@ export const useSearchTokens = (changeToken:Event<choseToken>) => {
     changeToken({
       pairAddress:el.address,
     });
+    setStatusSearch(SearchStatus.CHOISE);
+    const chainId = +el.chainId
+    changeChain(chainId)
     
-    if(isNavigate) navigate(`/?pairAddress=${el.address}&network=${+el.chainId}`)
+    if(isNavigate) navigate(`/?pairAddress=${el.address}&network=${chainId}`)
 
     dropDown.close();
   }
 
   useEffect(() => {
+    if(value !== "") setStatusSearch(SearchStatus.SEARCH);
+  }, [value])
+
+  useEffect(() => {
     const searchTokens = async () => {
       const getTokens = await axios(searchTokensUrl(valueDebounce, convertToCorrectChains(chainCurrent)));
+      const readyTokens = getTokens.data.pairs.data
+        // @ts-ignore
+        .filter((pair:searchToken) => Boolean(chainQuery?.[pair.chainId]) );
 
-      setAllTokens(getTokens.data.pairs.data.filter((pair:searchToken) => +pair.chainId === chain ))
+      if(readyTokens.length > 0) {
+        setAllTokens(readyTokens)
+      } else {
+        setAllTokens([])
+        setStatusSearch(SearchStatus.NOT_DATA)
+      };
+
     }
 
     if(valueDebounce !== "") searchTokens()
@@ -60,6 +84,7 @@ export const useSearchTokens = (changeToken:Event<choseToken>) => {
     },
     dropDown,
     onSetToken,
-    tokens:allTokens
+    tokens:allTokens,
+    statusSearch
   }
 }

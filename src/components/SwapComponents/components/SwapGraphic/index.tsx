@@ -3,6 +3,7 @@ import { GraphicHeader } from "./components/GraphicHeader";
 
 import cn from "classnames";
 import { useGetInfoToken } from "./model";
+import { Loading, LoadingStatus } from "UI/Loading";
 
 export function SwapGraphic() {
   const data = useGetInfoToken();
@@ -15,11 +16,13 @@ export function SwapGraphic() {
         "rounded-r-primary overflow-hidden bg-c-primary"
       )}
     >
-      {data?.tokenInfo && data?.statisticInfo && 
+      {data?.tokenInfo && data?.statisticInfo ?
         <>
           <GraphicHeader infoToken={data.tokenInfo} statisticToken={data.statisticInfo}/>
           <GraphicSwapData graphic={data.statisticInfo.graphic} /> 
         </>
+        :
+        <Loading status={LoadingStatus.NO_DATA} />
       }
     </div>
   );

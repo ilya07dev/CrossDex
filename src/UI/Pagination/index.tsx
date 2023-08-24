@@ -17,13 +17,13 @@ export function Pagination({
         "text-[15px] sm:text-lg 2xl:text-[25px] text-white leading-[120%]",
         "mx-auto sm:mx-0 mt-[10px] sm:mt-0"
       )}
-      previousLabel={false}
-      nextLabel={false}
+      // previousLabel={false}
+      // nextLabel={false}
       breakLabel={"..."}
       breakClassName={"break-me"}
       pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={1}
       onPageChange={handlePageChange}
       containerClassName={"pagination"}
       activeClassName={cn(
@@ -32,7 +32,7 @@ export function Pagination({
         "rounded-[10px] border-2 border-[#7BE9A5] cursor-pointer bg-transparent"
       )}
       pageClassName={cn(
-        "w-[30px] sm:w-10 h-[30px] sm:h-10 flex items-center justify-center",
+        "paginateButton w-[30px] sm:w-10 h-[30px] sm:h-10 flex items-center justify-center",
         "rounded-[10px] bg-c-secondary cursor-pointer hover:shadow-[0px_3px_1px_#7BE9A5] duration-500"
       )}
     />

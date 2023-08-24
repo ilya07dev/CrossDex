@@ -14,6 +14,8 @@ import { images } from "assets/img";
 import cn from "classnames";
 import { connectorMetamask } from "config/blockchain";
 import { useSwapVia } from "./model";
+import { useStore } from "effector-react";
+import { $choiseTokenSwap2 } from "./components/BottomSelect/model/choiseToken2";
 
 interface IProps {
   className?: string;
@@ -26,6 +28,7 @@ export function SwapTokens({ className }: IProps) {
     swapVia,
     status
   } = useSwapVia();
+  const choiseToken2 = useStore($choiseTokenSwap2)
 
 
   return (
@@ -53,39 +56,40 @@ export function SwapTokens({ className }: IProps) {
         )}
       />
       {address ? (
-        <>
-          <button
-            className={cn(
-              "w-full flex items-center bg-c-secondary rounded-r-secondary",
-              "gap-2 sm:gap-[15px] py-3 px-[15px] sm:pl-[13px] sm:pr-[23px] mt-[8px] 3xl:mt-[15px]",
-              "text-sm sm:text-xl text-white font-medium"
-            )}
-          >
-            <img
-              className="max-w-8 max-h-8 3xl:max-w-10 3xl:max-h-10"
-              src={images.usdc}
-              alt="img"
-            />
-            Receiver's address
-            <span className="ml-auto text-base sm:text-xl font-bold">
-              {shortenAddress(address)}
-            </span>
-          </button>
-
-          {status !== '' && 
+        choiseToken2 && 
+          <>
             <button
               className={cn(
                 "w-full flex items-center bg-c-secondary rounded-r-secondary",
                 "gap-2 sm:gap-[15px] py-3 px-[15px] sm:pl-[13px] sm:pr-[23px] mt-[8px] 3xl:mt-[15px]",
                 "text-sm sm:text-xl text-white font-medium"
               )}
-              onClick={swapVia}
-              disabled={status.includes("Loading")}
             >
-              {status}
+              <img
+                className="w-8 max-h-8 3xl:max-w-10 3xl:max-h-10"
+                src={choiseToken2?.logoURI}
+                alt="img"
+              />
+              Receiver's address
+              <span className="ml-auto text-base sm:text-xl font-bold">
+                {shortenAddress(address)}
+              </span>
             </button>
-          }
-        </>
+
+            {status !== '' && 
+              <button
+                className={cn(
+                  "w-full bg-[#7BE9A5] rounded-r-secondary mt-[15px]",
+                  "gap-2 sm:gap-[15px] 3xl:mt-[50px] py-3 px-[15px] sm:pl-[13px] sm:pr-[25px]",
+                  "text-base sm:text-xl font-semibold align-center",
+                )}
+                onClick={swapVia}
+                disabled={status.includes("Loading")}
+              >
+                {status}
+              </button>
+            }
+          </>
       ) : (
         <button
           className={cn(
